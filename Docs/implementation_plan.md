@@ -412,10 +412,10 @@ Implementation requirements:
 
 ### 9.4 Deliverables
 
-- [ ] `README.md` with full setup and architecture summary
-- [ ] `.env.example` documented
-- [ ] Deployable MVP runnable on a single machine
-- [ ] Demo script for stakeholder walkthrough
+- [x] `README.md` with full setup and architecture summary
+- [x] `.env.example` documented
+- [x] Deployable MVP runnable on a single machine
+- [x] Demo script for stakeholder walkthrough
 
 ### 9.5 Exit Criteria
 
