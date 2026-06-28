@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mutual Fund FAQ Assistant</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline": "#869397",
+                        "on-surface": "#dfe2f2",
+                        "tertiary-fixed-dim": "#ffb95f",
+                        "surface-container-low": "#171b27",
+                        "on-secondary-fixed": "#23005c",
+                        "tertiary-container": "#e79400",
+                        "secondary-container": "#571bc1",
+                        "inverse-surface": "#dfe2f2",
+                        "on-secondary-fixed-variant": "#5516be",
+                        "secondary": "#d0bcff",
+                        "on-primary-container": "#00424f",
+                        "on-primary-fixed-variant": "#004e5c",
+                        "inverse-on-surface": "#2c303c",
+                        "surface-bright": "#353945",
+                        "surface-variant": "#313441",
+                        "surface": "#0f131e",
+                        "on-tertiary-container": "#563400",
+                        "error": "#ffb4ab",
+                        "primary-container": "#06b6d4",
+                        "primary-fixed-dim": "#4cd7f6",
+                        "surface-dim": "#0f131e",
+                        "tertiary-fixed": "#ffddb8",
+                        "secondary-fixed-dim": "#d0bcff",
+                        "error-container": "#93000a",
+                        "surface-container-highest": "#313441",
+                        "on-surface-variant": "#bcc9cd",
+                        "outline-variant": "#3d494c",
+                        "on-tertiary-fixed-variant": "#653e00",
+                        "on-background": "#dfe2f2",
+                        "inverse-primary": "#00687a",
+                        "on-error-container": "#ffdad6",
+                        "primary": "#4cd7f6",
+                        "on-tertiary": "#472a00",
+                        "on-error": "#690005",
+                        "background": "#0f131e",
+                        "surface-tint": "#4cd7f6",
+                        "surface-container-high": "#262a36",
+                        "surface-container": "#1b1f2b",
+                        "on-secondary": "#3c0091",
+                        "on-primary": "#003640",
+                        "on-primary-fixed": "#001f26",
+                        "tertiary": "#ffb95f",
+                        "surface-container-lowest": "#0a0e19",
+                        "secondary-fixed": "#e9ddff",
+                        "on-tertiary-fixed": "#2a1700",
+                        "primary-fixed": "#acedff",
+                        "on-secondary-container": "#c4abff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "lg": "48px",
+                        "container-max": "1200px",
+                        "xs": "8px",
+                        "md": "24px",
+                        "gutter": "24px",
+                        "xl": "80px",
+                        "sm": "16px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "label-mono": ["Geist"],
+                        "body-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "display-lg": ["Space Grotesk"],
+                        "headline-lg-mobile": ["Space Grotesk"],
+                        "headline-lg": ["Space Grotesk"],
+                        "source-link": ["Geist"]
+                    },
+                    "fontSize": {
+                        "label-mono": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "source-link": ["13px", { "lineHeight": "18px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(15, 19, 30, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glass-panel:hover {
+            background: rgba(15, 19, 30, 0.6);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 15px rgba(76, 215, 246, 0.15);
+        }
+        .text-gradient {
+            background: linear-gradient(to right, #4cd7f6, #d0bcff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .btn-gradient {
+            background: linear-gradient(135deg, #06b6d4, #571bc1);
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.3);
+        }
+        .btn-gradient:hover {
+            box-shadow: 0 0 25px rgba(6, 182, 212, 0.5);
+        }
+        .disclaimer-border {
+            border-left: 2px solid #F59E0B;
+        }
+        .texture-bg {
+            background-image: url('data:image/png;base64,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');
+            background-repeat: repeat;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col texture-bg relative">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex flex-col">
+<!-- Disclaimer Banner -->
+<div class="bg-[rgba(245,158,11,0.05)] w-full py-2 px-md text-center border-b border-[#F59E0B]/20 disclaimer-border relative z-50">
+<p class="font-body-sm text-[#F59E0B]">
+<span class="material-symbols-outlined align-middle text-[16px] mr-1">warning</span>
+                Facts-only. No investment advice. Answers limited to five HDFC schemes from public Groww pages.
+            </p>
+</div>
+<!-- Navigation Bar -->
+<div class="bg-surface/80 dark:bg-surface/80 backdrop-blur-xl border-b border-white/10 shadow-[0_0_20px_rgba(76,215,246,0.1)] w-full py-xs px-md">
+<div class="max-w-container-max mx-auto flex justify-between items-center w-full">
+<!-- Brand -->
+<div class="flex items-center gap-4">
+<img alt="Mutual Fund FAQ Assistant Logo" class="w-10 h-10 rounded-md" src="data:image/png;base64,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"/>
+<div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                            Mutual Fund FAQ Assistant
+                        </h1>
+<p class="font-label-mono text-label-mono text-on-surface-variant hidden md:block">
+                            Facts-only · HDFC schemes · Source-backed
+                        </p>
+</div>
+</div>
+<!-- Trailing Actions -->
+<div class="flex gap-4">
+<button class="text-primary hover:text-primary transition-colors duration-300 active:opacity-80 active:scale-95 transition-all">
+<span class="material-symbols-outlined">security</span>
+</button>
+<button class="text-primary hover:text-primary transition-colors duration-300 active:opacity-80 active:scale-95 transition-all">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-grow pt-[120px] pb-[160px] px-md max-w-container-max mx-auto w-full flex flex-col items-center justify-center">
+<!-- Hero Section -->
+<section class="w-full max-w-[800px] text-center mb-12">
+<div class="relative w-full h-[200px] md:h-[300px] rounded-2xl overflow-hidden mb-8 border border-white/10 glass-panel">
+<img alt="Hero Illustration" class="w-full h-full object-cover opacity-80 mix-blend-screen" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZ55weAm0Yocy7aeSUgsr9WnqARDItpSMa3UbqVnNt6ArfmMUUKmiZjJi4bdoC57kvuYnWl356xe0b29C-6dzhHLB1cTsZeemAQIurMh8WZyHVhCXgkUSWAnaoX53iKZBhB96FMJ3X2UjvxsvKfT0U91RvBUmdNJvkOzN-gr05aJu6XfvK1V_B545MJyd_FZT7aKN81ILpLTVF4-_6xcI_ehRvHlbPZVQ4ZErFTRw_NAs6HrCmNQ9S"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent pointer-events-none"></div>
+</div>
+<h2 class="font-display-lg text-display-lg mb-4">
+                Ask factual questions about <br/>
+<span class="text-gradient">five HDFC mutual fund schemes</span>
+</h2>
+</section>
+<!-- Scheme Chips -->
+<section class="w-full max-w-[800px] mb-16">
+<div class="flex flex-wrap justify-center gap-4">
+<div class="glass-panel px-6 py-3 rounded-full flex items-center gap-3 transition-all cursor-pointer">
+<span class="material-symbols-outlined text-primary">domain</span>
+<span class="font-body-sm">HDFC Large Cap</span>
+</div>
+<div class="glass-panel px-6 py-3 rounded-full flex items-center gap-3 transition-all cursor-pointer">
+<span class="material-symbols-outlined text-secondary">bar_chart</span>
+<span class="font-body-sm">HDFC Mid Cap</span>
+</div>
+<div class="glass-panel px-6 py-3 rounded-full flex items-center gap-3 transition-all cursor-pointer">
+<span class="material-symbols-outlined text-tertiary">grass</span>
+<span class="font-body-sm">HDFC Small Cap</span>
+</div>
+<div class="glass-panel px-6 py-3 rounded-full flex items-center gap-3 transition-all cursor-pointer">
+<span class="material-symbols-outlined text-tertiary-fixed-dim">workspace_premium</span>
+<span class="font-body-sm">HDFC Gold ETF FoF</span>
+</div>
+<div class="glass-panel px-6 py-3 rounded-full flex items-center gap-3 transition-all cursor-pointer">
+<span class="material-symbols-outlined text-on-surface-variant">monetization_on</span>
+<span class="font-body-sm">HDFC Silver ETF FoF</span>
+</div>
+</div>
+</section>
+<!-- Example Questions -->
+<section class="w-full max-w-[800px]">
+<h3 class="font-label-mono text-label-mono text-on-surface-variant mb-6 text-center uppercase tracking-wider">Try Asking</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<button class="glass-panel p-4 rounded-xl text-left hover:-translate-y-1 transition-transform">
+<p class="font-body-sm text-on-surface mb-2">"What is the expense ratio of HDFC Large Cap Fund?"</p>
+<span class="font-label-mono text-label-mono text-primary flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span> Try this
+                    </span>
+</button>
+<button class="glass-panel p-4 rounded-xl text-left hover:-translate-y-1 transition-transform">
+<p class="font-body-sm text-on-surface mb-2">"Who are the fund managers for the Gold ETF?"</p>
+<span class="font-label-mono text-label-mono text-primary flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span> Try this
+                    </span>
+</button>
+<button class="glass-panel p-4 rounded-xl text-left hover:-translate-y-1 transition-transform">
+<p class="font-body-sm text-on-surface mb-2">"What is the exit load for the Small Cap fund?"</p>
+<span class="font-label-mono text-label-mono text-primary flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span> Try this
+                    </span>
+</button>
+<button class="glass-panel p-4 rounded-xl text-left hover:-translate-y-1 transition-transform">
+<p class="font-body-sm text-on-surface mb-2">"Compare the AUM of Mid Cap vs Large Cap."</p>
+<span class="font-label-mono text-label-mono text-primary flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span> Try this
+                    </span>
+</button>
+</div>
+</section>
+</main>
+<!-- Sticky Chat Input -->
+<div class="fixed bottom-[80px] left-0 w-full z-40 px-md pointer-events-none">
+<div class="max-w-[800px] mx-auto pointer-events-auto">
+<div class="glass-panel rounded-full p-2 flex items-center gap-2 shadow-[0_10px_40px_rgba(0,0,0,0.5)]">
+<div class="pl-4 text-on-surface-variant">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="flex-grow bg-transparent border-none text-on-surface font-body-md focus:ring-0 placeholder:text-outline-variant py-3 px-2" placeholder="Type your question about these 5 funds..." type="text"/>
+<button class="btn-gradient text-white px-6 py-3 rounded-full font-label-mono text-label-mono uppercase tracking-wider flex items-center gap-2 hover:opacity-90 transition-opacity">
+                    Ask
+                    <span class="material-symbols-outlined text-[16px]">send</span>
+</button>
+</div>
+<p class="text-center font-source-link text-source-link text-outline mt-2">
+                Questions are processed securely. Do not share personal financial data.
+            </p>
+</div>
+</div>
+<!-- Footer -->
+<footer class="w-full py-sm px-md flex flex-col items-center gap-base bg-surface-container-lowest dark:bg-surface-container-lowest border-t-2 border-tertiary/20 absolute bottom-0">
+<div class="flex gap-6 mb-2">
+<a class="font-label-mono text-label-mono text-on-surface-variant hover:text-tertiary hover:underline transition-all active:opacity-70" href="#">Data Sourcing</a>
+<a class="font-label-mono text-label-mono text-on-surface-variant hover:text-tertiary hover:underline transition-all active:opacity-70" href="#">Privacy Policy</a>
+<a class="font-label-mono text-label-mono text-on-surface-variant hover:text-tertiary hover:underline transition-all active:opacity-70" href="#">Disclaimer</a>
+</div>
+<p class="font-label-mono text-label-mono text-on-surface-variant text-center">
+            © 2024 Mutual Fund FAQ Assistant | MVP Demo
+        </p>
+<p class="font-label-mono text-label-mono text-outline-variant text-[10px] text-center">
+            Data sourced from public Groww scheme pages · Not real-time NAV
+        </p>
+</footer>
+</body></html>

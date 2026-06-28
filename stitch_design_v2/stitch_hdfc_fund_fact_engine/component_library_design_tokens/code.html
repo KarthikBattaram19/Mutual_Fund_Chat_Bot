@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mutual Fund FAQ Assistant - Component Library</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&amp;family=Inter:wght@400&amp;family=Geist:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline": "#869397",
+                        "on-surface": "#dfe2f2",
+                        "tertiary-fixed-dim": "#ffb95f",
+                        "surface-container-low": "#171b27",
+                        "on-secondary-fixed": "#23005c",
+                        "tertiary-container": "#e79400",
+                        "secondary-container": "#571bc1",
+                        "inverse-surface": "#dfe2f2",
+                        "on-secondary-fixed-variant": "#5516be",
+                        "secondary": "#d0bcff",
+                        "on-primary-container": "#00424f",
+                        "on-primary-fixed-variant": "#004e5c",
+                        "inverse-on-surface": "#2c303c",
+                        "surface-bright": "#353945",
+                        "surface-variant": "#313441",
+                        "surface": "#0f131e",
+                        "on-tertiary-container": "#563400",
+                        "error": "#ffb4ab",
+                        "primary-container": "#06b6d4",
+                        "primary-fixed-dim": "#4cd7f6",
+                        "surface-dim": "#0f131e",
+                        "tertiary-fixed": "#ffddb8",
+                        "secondary-fixed-dim": "#d0bcff",
+                        "error-container": "#93000a",
+                        "surface-container-highest": "#313441",
+                        "on-surface-variant": "#bcc9cd",
+                        "outline-variant": "#3d494c",
+                        "on-tertiary-fixed-variant": "#653e00",
+                        "on-background": "#dfe2f2",
+                        "inverse-primary": "#00687a",
+                        "on-error-container": "#ffdad6",
+                        "primary": "#4cd7f6",
+                        "on-tertiary": "#472a00",
+                        "on-error": "#690005",
+                        "background": "#0f131e",
+                        "surface-tint": "#4cd7f6",
+                        "surface-container-high": "#262a36",
+                        "surface-container": "#1b1f2b",
+                        "on-secondary": "#3c0091",
+                        "on-primary": "#003640",
+                        "on-primary-fixed": "#001f26",
+                        "tertiary": "#ffb95f",
+                        "surface-container-lowest": "#0a0e19",
+                        "secondary-fixed": "#e9ddff",
+                        "on-tertiary-fixed": "#2a1700",
+                        "primary-fixed": "#acedff",
+                        "on-secondary-container": "#c4abff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "lg": "48px",
+                        "container-max": "1200px",
+                        "xs": "8px",
+                        "md": "24px",
+                        "gutter": "24px",
+                        "xl": "80px",
+                        "sm": "16px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "label-mono": ["Geist"],
+                        "body-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "display-lg": ["Space Grotesk"],
+                        "headline-lg-mobile": ["Space Grotesk"],
+                        "headline-lg": ["Space Grotesk"],
+                        "source-link": ["Geist"]
+                    },
+                    "fontSize": {
+                        "label-mono": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "source-link": ["13px", { "lineHeight": "18px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #0B0F1A;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glass-panel:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .glass-floating {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 20px rgba(76, 215, 246, 0.1);
+        }
+        .text-gradient-electric {
+            background: linear-gradient(to right, #4cd7f6, #d0bcff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .bg-gradient-electric {
+            background: linear-gradient(to right, #4cd7f6, #d0bcff);
+        }
+        .btn-glow {
+            box-shadow: 0 0 15px rgba(120, 150, 255, 0.3);
+        }
+    </style>
+</head>
+<body class="text-on-surface font-body-md min-h-screen relative overflow-x-hidden p-md lg:p-lg">
+<div class="max-w-container-max mx-auto space-y-xl">
+<!-- Header -->
+<header class="border-b border-white/10 pb-md">
+<h1 class="font-display-lg text-display-lg text-gradient-electric mb-sm">Mutual Fund FAQ Assistant</h1>
+<p class="font-body-md text-on-surface-variant max-w-2xl">Component Library - Sleek Neo-Fintech Style Guide</p>
+</header>
+<!-- Tokens Section -->
+<section class="space-y-md">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Design Tokens</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-md">
+<!-- Color Palette -->
+<div class="glass-panel p-md rounded-xl space-y-sm">
+<h3 class="font-label-mono text-label-mono text-on-surface-variant uppercase tracking-wider">Colors</h3>
+<div class="flex gap-xs">
+<div class="w-10 h-10 rounded-full bg-surface-container" title="Navy"></div>
+<div class="w-10 h-10 rounded-full bg-primary" title="Cyan"></div>
+<div class="w-10 h-10 rounded-full bg-secondary" title="Violet"></div>
+<div class="w-10 h-10 rounded-full bg-tertiary" title="Amber"></div>
+</div>
+</div>
+<!-- Typography -->
+<div class="glass-panel p-md rounded-xl space-y-sm">
+<h3 class="font-label-mono text-label-mono text-on-surface-variant uppercase tracking-wider">Typography</h3>
+<div class="space-y-2">
+<div class="font-display-lg text-[24px]">Space Grotesk</div>
+<div class="font-body-md text-body-md">Inter</div>
+<div class="font-label-mono text-label-mono">Geist Mono</div>
+</div>
+</div>
+<!-- Elevation -->
+<div class="glass-panel p-md rounded-xl space-y-sm col-span-1 md:col-span-2">
+<h3 class="font-label-mono text-label-mono text-on-surface-variant uppercase tracking-wider">Elevation Levels</h3>
+<div class="flex gap-md">
+<div class="w-24 h-24 rounded-lg bg-surface border border-white/5 flex items-center justify-center font-label-mono text-label-mono text-on-surface-variant">Lvl 0</div>
+<div class="w-24 h-24 rounded-lg glass-panel flex items-center justify-center font-label-mono text-label-mono text-on-surface-variant">Lvl 1 (Panel)</div>
+<div class="w-24 h-24 rounded-lg glass-floating flex items-center justify-center font-label-mono text-label-mono text-on-surface-variant">Lvl 2 (Float)</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Components Showcase -->
+<section class="space-y-lg">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Components</h2>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-lg">
+<!-- Disclaimer & Alerts -->
+<div class="space-y-md">
+<h3 class="font-label-mono text-label-mono text-on-surface-variant">DisclaimerBanner</h3>
+<div class="bg-[rgba(245,158,11,0.05)] border-l-2 border-tertiary p-sm rounded-r-lg glass-panel flex gap-sm items-start">
+<span class="material-symbols-outlined text-tertiary mt-1" data-weight="fill" style="font-variation-settings: 'FILL' 1;">warning</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                            Mutual Fund investments are subject to market risks, read all scheme related documents carefully. Past performance is not an indicator of future returns.
+                        </p>
+</div>
+<h3 class="font-label-mono text-label-mono text-on-surface-variant mt-lg">ErrorBanner</h3>
+<div class="bg-[rgba(255,180,171,0.05)] border-l-2 border-error p-sm rounded-r-lg glass-panel flex gap-sm items-center">
+<span class="material-symbols-outlined text-error" data-weight="fill" style="font-variation-settings: 'FILL' 1;">error</span>
+<span class="font-body-md text-body-md text-error">Unable to fetch scheme data. Please try again.</span>
+</div>
+</div>
+<!-- Chips & Inputs -->
+<div class="space-y-md">
+<h3 class="font-label-mono text-label-mono text-on-surface-variant">SchemeChips &amp; ExampleQuestions</h3>
+<div class="flex flex-wrap gap-sm">
+<span class="font-label-mono text-label-mono bg-surface-container/40 text-on-surface-variant px-3 py-1 rounded-full border border-white/5">Equity</span>
+<span class="font-label-mono text-label-mono bg-surface-container/40 text-primary px-3 py-1 rounded-full border border-primary/30">Debt (Hover)</span>
+</div>
+<div class="flex flex-col gap-sm mt-sm">
+<button class="glass-panel text-left px-sm py-2 rounded-full font-body-sm text-body-sm hover:border-primary/50 transition-colors w-fit">
+                            "What is the exit load for Bluechip Fund?"
+                        </button>
+<button class="glass-panel text-left px-sm py-2 rounded-full font-body-sm text-body-sm border-primary/50 text-primary w-fit">
+                            "Show me top performing index funds"
+                        </button>
+</div>
+<h3 class="font-label-mono text-label-mono text-on-surface-variant mt-lg">ChatInput</h3>
+<div class="space-y-sm">
+<div class="relative w-full">
+<div class="absolute inset-y-0 left-0 pl-sm flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-on-surface-variant">search</span>
+</div>
+<input class="w-full bg-surface-container-low border-none shadow-[inset_0_2px_4px_rgba(0,0,0,0.4)] rounded-full py-sm pl-12 pr-16 text-on-surface placeholder:text-on-surface-variant/50 focus:ring-1 focus:ring-primary font-body-md text-body-md" placeholder="Ask a question..." type="text"/>
+<button class="absolute inset-y-1 right-1 px-3 bg-gradient-electric rounded-full text-on-primary-container btn-glow flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">send</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Chat Bubbles -->
+<div class="col-span-1 lg:col-span-2 space-y-md">
+<h3 class="font-label-mono text-label-mono text-on-surface-variant">Conversational Elements</h3>
+<div class="glass-floating rounded-xl p-md space-y-lg max-w-4xl mx-auto h-[500px] overflow-y-auto">
+<!-- User Bubble -->
+<div class="flex justify-end">
+<div class="glass-panel border-secondary/30 rounded-2xl rounded-tr-sm p-sm max-w-[80%]">
+<p class="font-body-md text-body-md text-on-surface">Explain the tax implications of long-term capital gains in equity mutual funds.</p>
+</div>
+</div>
+<!-- Loading -->
+<div class="flex justify-start">
+<div class="glass-panel border-primary/10 rounded-2xl rounded-tl-sm p-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-primary animate-spin">sync</span>
+<span class="font-label-mono text-label-mono text-on-surface-variant">Analyzing scheme data...</span>
+</div>
+</div>
+<!-- Response Card -->
+<div class="flex justify-start">
+<div class="glass-panel border-primary/30 rounded-2xl rounded-tl-sm p-md max-w-[90%] relative overflow-hidden group">
+<!-- Dot grid texture -->
+<div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(#4cd7f6 1px, transparent 1px); background-size: 8px 8px;"></div>
+<div class="relative z-10 space-y-sm">
+<div class="flex items-center gap-xs text-primary mb-xs">
+<span class="material-symbols-outlined text-sm" data-weight="fill" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="font-label-mono text-label-mono font-bold">VERIFIED RESPONSE</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface leading-relaxed">
+                                        For equity mutual funds, Long-Term Capital Gains (LTCG) apply if you hold the units for more than 1 year. Currently, LTCG up to ₹1.25 Lakhs per financial year is exempt from tax. Any gains exceeding this threshold are taxed at a flat rate of 12.5% without indexation benefits.
+                                    </p>
+<div class="pt-sm border-t border-white/10 mt-sm flex gap-xs">
+<span class="font-source-link text-source-link bg-surface-container px-2 py-1 rounded text-on-surface-variant">Source: IT Act Sec 112A</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Refusal Card -->
+<div class="flex justify-start">
+<div class="glass-panel border-outline-variant rounded-2xl rounded-tl-sm p-md max-w-[80%]">
+<div class="flex items-start gap-sm">
+<span class="material-symbols-outlined text-outline" data-weight="fill" style="font-variation-settings: 'FILL' 1;">security</span>
+<div>
+<h4 class="font-body-md text-body-md font-bold text-on-surface mb-xs">Action Restricted</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                                            I am unable to provide personalized investment advice or execute transactions. I can only provide factual information regarding scheme details and general financial concepts.
+                                        </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</body></html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MF Assistant - Loading</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&amp;family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "outline": "#869397",
+                      "on-surface": "#dfe2f2",
+                      "tertiary-fixed-dim": "#ffb95f",
+                      "surface-container-low": "#171b27",
+                      "on-secondary-fixed": "#23005c",
+                      "tertiary-container": "#e79400",
+                      "secondary-container": "#571bc1",
+                      "inverse-surface": "#dfe2f2",
+                      "on-secondary-fixed-variant": "#5516be",
+                      "secondary": "#d0bcff",
+                      "on-primary-container": "#00424f",
+                      "on-primary-fixed-variant": "#004e5c",
+                      "inverse-on-surface": "#2c303c",
+                      "surface-bright": "#353945",
+                      "surface-variant": "#313441",
+                      "surface": "#0f131e",
+                      "on-tertiary-container": "#563400",
+                      "error": "#ffb4ab",
+                      "primary-container": "#06b6d4",
+                      "primary-fixed-dim": "#4cd7f6",
+                      "surface-dim": "#0f131e",
+                      "tertiary-fixed": "#ffddb8",
+                      "secondary-fixed-dim": "#d0bcff",
+                      "error-container": "#93000a",
+                      "surface-container-highest": "#313441",
+                      "on-surface-variant": "#bcc9cd",
+                      "outline-variant": "#3d494c",
+                      "on-tertiary-fixed-variant": "#653e00",
+                      "on-background": "#dfe2f2",
+                      "inverse-primary": "#00687a",
+                      "on-error-container": "#ffdad6",
+                      "primary": "#4cd7f6",
+                      "on-tertiary": "#472a00",
+                      "on-error": "#690005",
+                      "background": "#0f131e",
+                      "surface-tint": "#4cd7f6",
+                      "surface-container-high": "#262a36",
+                      "surface-container": "#1b1f2b",
+                      "on-secondary": "#3c0091",
+                      "on-primary": "#003640",
+                      "on-primary-fixed": "#001f26",
+                      "tertiary": "#ffb95f",
+                      "surface-container-lowest": "#0a0e19",
+                      "secondary-fixed": "#e9ddff",
+                      "on-tertiary-fixed": "#2a1700",
+                      "primary-fixed": "#acedff",
+                      "on-secondary-container": "#c4abff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "lg": "48px",
+                      "container-max": "1200px",
+                      "xs": "8px",
+                      "md": "24px",
+                      "gutter": "24px",
+                      "xl": "80px",
+                      "sm": "16px",
+                      "base": "4px"
+              },
+              "fontFamily": {
+                      "label-mono": [
+                              "Geist"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "display-lg": [
+                              "Space Grotesk"
+                      ],
+                      "headline-lg-mobile": [
+                              "Space Grotesk"
+                      ],
+                      "headline-lg": [
+                              "Space Grotesk"
+                      ],
+                      "source-link": [
+                              "Geist"
+                      ]
+              },
+              "fontSize": {
+                      "label-mono": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "source-link": [
+                              "13px",
+                              {
+                                      "lineHeight": "18px",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        body {
+            background-color: #0B0F1A;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .disclaimer-card {
+            background: rgba(245, 158, 11, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-left: 2px solid #F59E0B;
+        }
+
+        .cyber-glow {
+            box-shadow: 0 0 20px rgba(76, 215, 246, 0.15);
+        }
+
+        /* Orbiting Dots Animation */
+        .orbit-container {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            animation: rotate 4s linear infinite;
+        }
+
+        .orbit-dot {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4cd7f6;
+            box-shadow: 0 0 10px #4cd7f6, 0 0 20px #571bc1;
+        }
+
+        .orbit-dot:nth-child(1) { top: 0; left: 50%; transform: translate(-50%, -50%); }
+        .orbit-dot:nth-child(2) { bottom: 0; left: 50%; transform: translate(-50%, 50%); }
+        .orbit-dot:nth-child(3) { top: 50%; left: 0; transform: translate(-50%, -50%); }
+        .orbit-dot:nth-child(4) {</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body></body></html>

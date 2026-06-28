@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mutual Fund FAQ Assistant - Factual Response</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        @import url('https://fonts.googleapis.com/css2?family=Geist:wght@500&family=Inter:wght@400&family=Space+Grotesk:wght@600;700&display=swap');
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                            "outline": "#869397",
+                            "on-surface": "#dfe2f2",
+                            "tertiary-fixed-dim": "#ffb95f",
+                            "surface-container-low": "#171b27",
+                            "on-secondary-fixed": "#23005c",
+                            "tertiary-container": "#e79400",
+                            "secondary-container": "#571bc1",
+                            "inverse-surface": "#dfe2f2",
+                            "on-secondary-fixed-variant": "#5516be",
+                            "secondary": "#d0bcff",
+                            "on-primary-container": "#00424f",
+                            "on-primary-fixed-variant": "#004e5c",
+                            "inverse-on-surface": "#2c303c",
+                            "surface-bright": "#353945",
+                            "surface-variant": "#313441",
+                            "surface": "#0f131e",
+                            "on-tertiary-container": "#563400",
+                            "error": "#ffb4ab",
+                            "primary-container": "#06b6d4",
+                            "primary-fixed-dim": "#4cd7f6",
+                            "surface-dim": "#0f131e",
+                            "tertiary-fixed": "#ffddb8",
+                            "secondary-fixed-dim": "#d0bcff",
+                            "error-container": "#93000a",
+                            "surface-container-highest": "#313441",
+                            "on-surface-variant": "#bcc9cd",
+                            "outline-variant": "#3d494c",
+                            "on-tertiary-fixed-variant": "#653e00",
+                            "on-background": "#dfe2f2",
+                            "inverse-primary": "#00687a",
+                            "on-error-container": "#ffdad6",
+                            "primary": "#4cd7f6",
+                            "on-tertiary": "#472a00",
+                            "on-error": "#690005",
+                            "background": "#0f131e",
+                            "surface-tint": "#4cd7f6",
+                            "surface-container-high": "#262a36",
+                            "surface-container": "#1b1f2b",
+                            "on-secondary": "#3c0091",
+                            "on-primary": "#003640",
+                            "on-primary-fixed": "#001f26",
+                            "tertiary": "#ffb95f",
+                            "surface-container-lowest": "#0a0e19",
+                            "secondary-fixed": "#e9ddff",
+                            "on-tertiary-fixed": "#2a1700",
+                            "primary-fixed": "#acedff",
+                            "on-secondary-container": "#c4abff"
+                    },
+                    "borderRadius": {
+                            "DEFAULT": "0.25rem",
+                            "lg": "0.5rem",
+                            "xl": "0.75rem",
+                            "full": "9999px"
+                    },
+                    "spacing": {
+                            "lg": "48px",
+                            "container-max": "1200px",
+                            "xs": "8px",
+                            "md": "24px",
+                            "gutter": "24px",
+                            "xl": "80px",
+                            "sm": "16px",
+                            "base": "4px"
+                    },
+                    "fontFamily": {
+                            "label-mono": [
+                                    "Geist"
+                            ],
+                            "body-md": [
+                                    "Inter"
+                            ],
+                            "body-sm": [
+                                    "Inter"
+                            ],
+                            "display-lg": [
+                                    "Space Grotesk"
+                            ],
+                            "headline-lg-mobile": [
+                                    "Space Grotesk"
+                            ],
+                            "headline-lg": [
+                                    "Space Grotesk"
+                            ],
+                            "source-link": [
+                                    "Geist"
+                            ]
+                    },
+                    "fontSize": {
+                            "label-mono": [
+                                    "12px",
+                                    {
+                                            "lineHeight": "16px",
+                                            "letterSpacing": "0.05em",
+                                            "fontWeight": "500"
+                                    }
+                            ],
+                            "body-md": [
+                                    "16px",
+                                    {
+                                            "lineHeight": "24px",
+                                            "fontWeight": "400"
+                                    }
+                            ],
+                            "body-sm": [
+                                    "14px",
+                                    {
+                                            "lineHeight": "20px",
+                                            "fontWeight": "400"
+                                    }
+                            ],
+                            "display-lg": [
+                                    "48px",
+                                    {
+                                            "lineHeight": "56px",
+                                            "letterSpacing": "-0.02em",
+                                            "fontWeight": "700"
+                                    }
+                            ],
+                            "headline-lg-mobile": [
+                                    "24px",
+                                    {
+                                            "lineHeight": "32px",
+                                            "fontWeight": "600"
+                                    }
+                            ],
+                            "headline-lg": [
+                                    "32px",
+                                    {
+                                            "lineHeight": "40px",
+                                            "letterSpacing": "-0.01em",
+                                            "fontWeight": "600"
+                                    }
+                            ],
+                            "source-link": [
+                                    "13px",
+                                    {
+                                            "lineHeight": "18px",
+                                            "fontWeight": "400"
+                                    }
+                            ]
+                    }
+                }
+            }
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer utilities {
+            .glass-panel {
+                @apply bg-white/5 backdrop-blur-[12px] border border-white/10;
+            }
+            .glass-panel-active {
+                @apply bg-white/5 backdrop-blur-[20px] border border-white/30 shadow-[0_0_15px_rgba(76,215,246,0.15)];
+            }
+            .text-glow {
+                text-shadow: 0 0 10px rgba(76,215,246,0.5);
+            }
+            .bg-dot-grid {
+                background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+                background-size: 16px 16px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface min-h-screen flex flex-col font-body-md relative overflow-x-hidden">
+<!-- Base Texture -->
+<div class="fixed inset-0 pointer-events-none bg-dot-grid opacity-50 z-0"></div>
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-md py-xs max-w-container-max mx-auto bg-surface/80 backdrop-blur-xl border-b border-white/10 shadow-[0_0_20px_rgba(76,215,246,0.1)]">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary text-3xl" data-weight="fill" style="font-variation-settings: 'FILL' 1;">analytics</span>
+<h1 class="font-headline-lg text-headline-lg bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Mutual Fund FAQ Assistant</h1>
+</div>
+<div class="flex gap-sm">
+<button class="text-on-surface-variant hover:text-primary transition-colors duration-300 opacity-80 hover:opacity-100 p-2 rounded-full hover:bg-white/5">
+<span class="material-symbols-outlined" data-icon="security">security</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors duration-300 opacity-80 hover:opacity-100 p-2 rounded-full hover:bg-white/5">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+</div>
+</header>
+<div class="flex flex-1 pt-[80px] z-10 w-full max-w-container-max mx-auto">
+<!-- SideNavBar -->
+<nav class="hidden lg:flex flex-col h-full py-md w-64 bg-surface-container border-r border-white/5 shadow-xl fixed left-0 top-[80px] bottom-0">
+<div class="px-md mb-md">
+<div class="flex items-center gap-sm mb-xs">
+<div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center border border-primary/30">
+<span class="material-symbols-outlined text-primary">smart_toy</span>
+</div>
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface text-lg">MF Assistant</h2>
+<p class="font-label-mono text-label-mono text-on-surface-variant">Compliance Mode Active</p>
+</div>
+</div>
+</div>
+<div class="flex flex-col flex-1 gap-xs px-xs">
+<a class="bg-secondary-container text-on-secondary-container rounded-lg mx-2 my-1 px-sm py-xs flex items-center gap-sm scale-[0.98] transition-transform font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+                    Assistant
+                </a>
+<a class="text-on-surface-variant hover:bg-surface-bright rounded-lg mx-2 my-1 px-sm py-xs flex items-center gap-sm transition-all font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="account_balance">account_balance</span>
+                    Scheme Data
+                </a>
+<a class="text-on-surface-variant hover:bg-surface-bright rounded-lg mx-2 my-1 px-sm py-xs flex items-center gap-sm transition-all font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
+                    Compliance Log
+                </a>
+<a class="text-on-surface-variant hover:bg-surface-bright rounded-lg mx-2 my-1 px-sm py-xs flex items-center gap-sm transition-all font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+                    Legal Docs
+                </a>
+</div>
+<div class="px-md mt-auto">
+<button class="w-full bg-transparent border border-primary text-primary hover:bg-primary/10 rounded-lg py-xs px-sm font-label-mono text-label-mono transition-colors">
+                    View Audit Trail
+                </button>
+</div>
+</nav>
+<!-- Main Content Area (Assistant Viewport) -->
+<main class="flex-1 flex flex-col items-center justify-between px-md pb-xl lg:pl-72 w-full">
+<!-- Chat History -->
+<div class="w-full max-w-[800px] flex flex-col mt-lg pb-32 gap-xl">
+<!-- User Bubble -->
+<div class="flex justify-end w-full">
+<div class="glass-panel border-secondary/30 rounded-2xl rounded-tr-sm px-md py-sm max-w-[80%]">
+<p class="font-body-md text-body-md text-on-surface">What is the expense ratio of HDFC Large Cap Fund?</p>
+</div>
+</div>
+<!-- Assistant Response Card -->
+<div class="flex justify-start w-full">
+<div class="glass-panel border-primary/30 rounded-2xl rounded-tl-sm p-md max-w-[90%] lg:max-w-[80%] relative overflow-hidden">
+<!-- AI Texture -->
+<div class="absolute inset-0 bg-dot-grid opacity-30 pointer-events-none"></div>
+<div class="relative z-10 flex flex-col gap-sm">
+<div class="flex items-center gap-2 text-primary-fixed-dim">
+<span class="material-symbols-outlined text-sm" data-icon="verified">verified</span>
+<span class="font-label-mono text-label-mono uppercase tracking-wider">Verified Data Source</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface leading-relaxed">
+                                The expense ratio for HDFC Large Cap Fund (Direct Plan) is approximately <span class="text-primary font-bold">1.05%</span> as of June 2026. This value represents the annual fee charged by the fund to manage its assets.
+                            </p>
+<div class="mt-sm pt-sm border-t border-white/10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+<a class="font-source-link text-source-link text-on-surface-variant hover:text-primary transition-colors flex items-center gap-1" href="https://groww.in/mutual-funds/hdfc-large-cap-fund-direct-plan" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-xs">link</span>
+                                    Source: groww.in/mutual-funds/hdfc-large-cap-fund-direct-plan
+                                </a>
+<span class="font-label-mono text-label-mono text-outline">Last updated: June 2026</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Chat Input (Sticky Bottom) -->
+<div class="fixed bottom-0 left-0 lg:left-64 right-0 p-md bg-gradient-to-t from-background via-background to-transparent z-40 flex justify-center">
+<div class="w-full max-w-[800px] relative">
+<div class="absolute inset-0 bg-primary/5 rounded-full blur-md"></div>
+<div class="relative flex items-center bg-surface-container-high rounded-full border border-white/10 shadow-inner px-md py-sm">
+<span class="material-symbols-outlined text-on-surface-variant mr-sm">search</span>
+<input class="flex-1 bg-transparent border-none text-on-surface font-body-md text-body-md placeholder:text-on-surface-variant/50 focus:ring-0 px-0" placeholder="Ask another question about mutual funds..." type="text"/>
+<button class="ml-sm bg-gradient-to-r from-primary to-secondary text-on-primary rounded-full w-10 h-10 flex items-center justify-center hover:opacity-90 transition-opacity shadow-[0_0_10px_rgba(76,215,246,0.5)]">
+<span class="material-symbols-outlined" data-icon="send">send</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Footer is intentionally omitted from the main viewport space to keep focus on chat, 
+         but technically exists per JSON if scrolled, though usually fixed chat inputs hide footers -->
+</body></html>

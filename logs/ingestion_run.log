@@ -1,0 +1,15 @@
+Ingestion mode: WRITE
+Fetched pages: 5
+Parsed pages: 5
+Extracted schemes: 5
+Chunks produced: 45
+Embeddings produced: 45
+Chunks indexed: 45
+Corpus timestamps updated: 5
+Validation: 5/5 schemes indexed; 5 partial; 0 unreachable
+Field coverage:
+- hdfc-large-cap-fund-direct-growth [partial]: indexed=nav, expense_ratio, exit_load, min_sip, riskometer, benchmark, fund_manager, aum, category; missing=lock_in
+- hdfc-mid-cap-fund-direct-growth [partial]: indexed=nav, expense_ratio, exit_load, min_sip, riskometer, benchmark, fund_manager, aum, category; missing=lock_in
+- hdfc-small-cap-fund-direct-growth [partial]: indexed=nav, expense_ratio, exit_load, min_sip, riskometer, benchmark, fund_manager, aum, category; missing=lock_in
+- hdfc-gold-etf-fund-of-fund-direct-plan-growth [partial]: indexed=nav, expense_ratio, exit_load, min_sip, riskometer, benchmark, fund_manager, aum, category; missing=lock_in
+- hdfc-silver-etf-fof-direct-growth [partial]: indexed=nav, expense_ratio, exit_load, min_sip, riskometer, benchmark, fund_manager, aum, category; missing=lock_in

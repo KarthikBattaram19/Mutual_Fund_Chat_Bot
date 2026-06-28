@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mutual Fund FAQ Assistant</title>
+    <meta
+      name="description"
+      content="A facts-only mutual fund FAQ website for selected HDFC Mutual Fund schemes."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="site-nav" aria-label="Primary">
+        <div class="brand-lockup">
+          <img
+            class="brand-logo"
+            src="./logo.svg"
+            width="40"
+            height="40"
+            alt="Mutual Fund FAQ Assistant logo"
+          />
+          <div>
+            <a class="site-brand" href="./index.html">Mutual Fund FAQ Assistant</a>
+            <p class="brand-subtitle">Facts-only · HDFC schemes · Source-backed</p>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="page">
+      <header class="page-intro">
+        <h1 id="chat-title" class="page-title">
+          Ask factual questions about five HDFC mutual fund schemes
+        </h1>
+        <p class="page-lead">
+          Get short, source-backed answers from public Groww scheme pages. No investment advice.
+        </p>
+      </header>
+
+      <div id="welcome-message" class="content-card" data-testid="welcome-message">
+        <h2 class="section-title">Welcome</h2>
+        <p>
+          This assistant answers from the configured Groww corpus for
+          <strong>five HDFC schemes</strong> only:
+        </p>
+        <ul class="scheme-list">
+          <li>HDFC Large Cap Fund – Direct Growth</li>
+          <li>HDFC Mid Cap Fund – Direct Growth</li>
+          <li>HDFC Small Cap Fund – Direct Growth</li>
+          <li>HDFC Gold ETF Fund of Fund – Direct Plan Growth</li>
+          <li>HDFC Silver ETF FoF – Direct Growth</li>
+        </ul>
+        <p>
+          It refuses advisory, personal, unsupported, or performance-return questions instead of
+          guessing.
+        </p>
+      </div>
+
+      <section id="example-questions" class="content-section" data-testid="example-questions">
+        <h2 class="section-title">Try an example</h2>
+        <div class="example-grid">
+          <button
+            type="button"
+            class="example-chip"
+            data-question="What is the expense ratio of HDFC Large Cap Fund?"
+          >
+            <span class="example-chip-text"
+              >What is the expense ratio of HDFC Large Cap Fund?</span
+            >
+            <span class="example-chip-action">Try this question →</span>
+          </button>
+          <button
+            type="button"
+            class="example-chip"
+            data-question="What is the minimum SIP for HDFC Mid Cap Fund?"
+          >
+            <span class="example-chip-text"
+              >What is the minimum SIP for HDFC Mid Cap Fund?</span
+            >
+            <span class="example-chip-action">Try this question →</span>
+          </button>
+          <button
+            type="button"
+            class="example-chip"
+            data-question="What is the riskometer for HDFC Gold ETF FoF?"
+          >
+            <span class="example-chip-text">What is the riskometer for HDFC Gold ETF FoF?</span>
+            <span class="example-chip-action">Try this question →</span>
+          </button>
+        </div>
+      </section>
+
+      <section
+        id="chat-history"
+        class="chat-history content-section"
+        data-testid="chat-history"
+        aria-live="polite"
+        aria-label="Conversation"
+        hidden
+      ></section>
+
+      <form id="chat-form" class="query-form" data-testid="chat-input" autocomplete="off">
+        <label class="field-label" for="query-input">Your question</label>
+        <div class="input-row">
+          <textarea
+            id="query-input"
+            name="query"
+            rows="3"
+            maxlength="500"
+            placeholder="Example: What is the expense ratio of HDFC Large Cap Fund?"
+            required
+          ></textarea>
+        </div>
+        <div class="form-actions">
+          <button id="ask-button" type="submit">
+            <span class="ask-label">Ask</span>
+          </button>
+          <p class="input-help">
+            Do not enter PAN, Aadhaar, phone, email, OTP, or account details.
+          </p>
+        </div>
+      </form>
+    </main>
+
+    <footer class="site-footer">
+      <p>
+        This website is an educational MVP. It does not provide investment advice,
+        recommendations, account services, or live portfolio support.
+      </p>
+      <p class="footer-meta">Data sourced from public Groww scheme pages · Not real-time NAV</p>
+    </footer>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
