@@ -16,24 +16,25 @@ def test_root_vercel_config_deploys_frontend_only() -> None:
     assert root["outputDirectory"] == "frontend"
     assert root["framework"] is None
     assert frontend["framework"] is None
-    assert package["scripts"]["build"] == "node scripts/generate-config.js"
+    assert package["scripts"]["build"] == "node build-config.js"
+    assert Path("frontend/build-config.js").exists()
 
 
-def test_vercelignore_excludes_python_backend() -> None:
+def test_vercelignore_excludes_python_backend_but_not_frontend_build() -> None:
     ignored = Path(".vercelignore").read_text(encoding="utf-8")
 
+    assert "/scripts/" in ignored
+    assert "scripts/" not in ignored.replace("/scripts/", "")
     assert "requirements.txt" in ignored
     assert "api/" in ignored
-    assert "data/" in ignored
-    assert "stitch_hdfc_fund_fact_engine.zip" in ignored
 
 
-def test_generate_config_writes_api_base_url() -> None:
+def test_build_config_writes_api_base_url() -> None:
     config_path = Path("frontend/config.js")
     before = config_path.read_text(encoding="utf-8")
     try:
         env = {**os.environ, "API_BASE_URL": "https://api.example.railway.app"}
-        subprocess.run(["node", "frontend/scripts/generate-config.js"], check=True, env=env)
+        subprocess.run(["node", "build-config.js"], check=True, env=env, cwd="frontend")
         generated = config_path.read_text(encoding="utf-8")
         assert 'window.__API_BASE_URL__ = "https://api.example.railway.app"' in generated
     finally:

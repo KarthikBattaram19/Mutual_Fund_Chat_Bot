@@ -2,7 +2,7 @@
 api/
 ingestion/
 rag/
-scripts/
+/scripts/
 tests/
 config.py
 requirements.txt
