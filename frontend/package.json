@@ -2,7 +2,7 @@
   "name": "mutual-fund-faq-frontend",
   "private": true,
   "scripts": {
-    "build": "node -e \"const fs=require('fs');const u=(process.env.API_BASE_URL||'').trim().replace(/\\/$/,'');if(process.env.VERCEL&&!u){console.error('ERROR: Set API_BASE_URL in Vercel env vars');process.exit(1)}fs.writeFileSync('config.js','// Auto-generated at build time\\nwindow.__API_BASE_URL__='+JSON.stringify(u)+';\\n');console.log(u?'Wrote config.js':'Wrote config.js (local fallback)')\"",
+    "build": "node build-config.js",
     "vercel-build": "npm run build"
   }
 }

@@ -13,8 +13,11 @@ def test_frontend_vercel_config_is_static_only() -> None:
     package = json.loads(Path("frontend/package.json").read_text(encoding="utf-8"))
 
     assert vercel["framework"] is None
+    assert vercel["buildCommand"] == "npm run build"
+    assert vercel["outputDirectory"] == "."
     assert "vercel-build" in package["scripts"]
-    assert "API_BASE_URL" in package["scripts"]["build"]
+    assert package["scripts"]["build"] == "node build-config.js"
+    assert Path("frontend/build-config.js").exists()
     assert not Path("vercel.json").exists()
 
 
@@ -32,7 +35,7 @@ def test_frontend_package_build_writes_config_js() -> None:
     before = config_path.read_text(encoding="utf-8")
     try:
         env = {**os.environ, "API_BASE_URL": "https://api.example.railway.app"}
-        subprocess.run(["npm", "run", "build"], check=True, env=env, cwd="frontend", shell=True)
+        subprocess.run(["node", "build-config.js"], check=True, env=env, cwd="frontend")
         generated = config_path.read_text(encoding="utf-8")
         assert "https://api.example.railway.app" in generated
         assert "window.__API_BASE_URL__" in generated
