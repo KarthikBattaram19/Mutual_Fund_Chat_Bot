@@ -1,0 +1,27 @@
+# Backend and Python (Vercel serves static frontend only)
+api/
+ingestion/
+rag/
+scripts/
+tests/
+config.py
+requirements.txt
+railway.toml
+railpack.json
+*.py
+.pytest_cache/
+.venv/
+venv/
+env/
+models/
+.cache/
+logs/
+
+# Data and heavy assets
+data/
+stitch_design/
+stitch_design_v2/
+stitch_hdfc_fund_fact_engine.zip
+
+# Docs and tooling
+Docs/

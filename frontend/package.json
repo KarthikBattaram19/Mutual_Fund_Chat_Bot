@@ -2,6 +2,6 @@
   "name": "mutual-fund-faq-frontend",
   "private": true,
   "scripts": {
-    "build": "node ../scripts/generate_frontend_config.js"
+    "build": "node scripts/generate-config.js"
   }
 }

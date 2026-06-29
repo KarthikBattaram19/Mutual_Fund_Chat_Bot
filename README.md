@@ -160,15 +160,22 @@ Set on Railway:
 
 ### Vercel (UI)
 
+**Option A — Root Directory `frontend` (recommended)**
+
 1. Import the GitHub repo in Vercel.
 2. Set **Root Directory** to `frontend`.
-3. Add this environment variable:
+3. Add environment variable `API_BASE_URL` = your Railway API URL.
+4. Deploy.
+
+**Option B — Deploy from repository root**
+
+The root `vercel.json` and `.vercelignore` deploy only the static `frontend/` folder and exclude the Python backend (prevents the 500 MB serverless bundle error).
 
 | Variable | Value |
 |---|---|
 | `API_BASE_URL` | Your Railway API URL, e.g. `https://your-app.up.railway.app` |
 
-4. Deploy. The build runs `npm run build`, which writes `frontend/config.js` with your API URL.
+The build writes `frontend/config.js` with your API URL. Do **not** point Vercel at the Python backend — that belongs on Railway.
 
 Local UI config: copy `frontend/config.example.js` to `frontend/config.js` or rely on the committed local default.
 

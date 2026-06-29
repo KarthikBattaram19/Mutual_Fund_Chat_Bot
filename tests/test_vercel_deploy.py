@@ -8,20 +8,32 @@ from bs4 import BeautifulSoup
 from api.main import VERCEL_ORIGIN_PATTERN, _configured_frontend_origins
 
 
-def test_frontend_vercel_config_exists() -> None:
-    vercel = json.loads(Path("frontend/vercel.json").read_text(encoding="utf-8"))
+def test_root_vercel_config_deploys_frontend_only() -> None:
+    root = json.loads(Path("vercel.json").read_text(encoding="utf-8"))
+    frontend = json.loads(Path("frontend/vercel.json").read_text(encoding="utf-8"))
     package = json.loads(Path("frontend/package.json").read_text(encoding="utf-8"))
 
-    assert vercel["buildCommand"] == "npm run build"
-    assert package["scripts"]["build"] == "node ../scripts/generate_frontend_config.js"
+    assert root["outputDirectory"] == "frontend"
+    assert root["framework"] is None
+    assert frontend["framework"] is None
+    assert package["scripts"]["build"] == "node scripts/generate-config.js"
 
 
-def test_generate_frontend_config_writes_api_base_url() -> None:
+def test_vercelignore_excludes_python_backend() -> None:
+    ignored = Path(".vercelignore").read_text(encoding="utf-8")
+
+    assert "requirements.txt" in ignored
+    assert "api/" in ignored
+    assert "data/" in ignored
+    assert "stitch_hdfc_fund_fact_engine.zip" in ignored
+
+
+def test_generate_config_writes_api_base_url() -> None:
     config_path = Path("frontend/config.js")
     before = config_path.read_text(encoding="utf-8")
     try:
         env = {**os.environ, "API_BASE_URL": "https://api.example.railway.app"}
-        subprocess.run(["node", "scripts/generate_frontend_config.js"], check=True, env=env)
+        subprocess.run(["node", "frontend/scripts/generate-config.js"], check=True, env=env)
         generated = config_path.read_text(encoding="utf-8")
         assert 'window.__API_BASE_URL__ = "https://api.example.railway.app"' in generated
     finally:
