@@ -4,16 +4,15 @@ export function resolveApiBaseUrl(location = window.location) {
   const params = new URLSearchParams(location.search);
   const configured = params.get("apiBase") || window.__API_BASE_URL__;
   if (configured) {
-    return configured.replace(/\/$/, "");
+    return String(configured).replace(/\/$/, "");
   }
 
   if (location.protocol.startsWith("http")) {
-    // Local dev: static UI on :3000, API on :8000.
-    if (location.port === "3000") {
+    const host = location.hostname;
+    const isLocalHost = host === "localhost" || host === "127.0.0.1";
+    if (isLocalHost && (location.port === "3000" || location.port === "" || location.port === "8000")) {
       return DEFAULT_BACKEND_ORIGIN;
     }
-    // Same-origin deploy (Railway or uvicorn serving UI + API).
-    return location.origin;
   }
 
   return DEFAULT_BACKEND_ORIGIN;

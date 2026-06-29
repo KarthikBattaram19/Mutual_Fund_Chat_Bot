@@ -131,35 +131,61 @@ If `vector_store_ready` is `false`, run ingestion first. `/api/ask` returns `503
 
 ---
 
+## Production Deploy (Vercel + Railway)
+
+Recommended split:
+
+| Component | Platform | Serves |
+|---|---|---|
+| **Frontend** | [Vercel](https://vercel.com) | Static UI from `ui/` |
+| **Backend** | [Railway](https://railway.com) | FastAPI API only |
+
+### Railway (API)
+
+`railway.toml` configures:
+
+- **Build:** `python scripts/index_from_samples.py`
+- **Start:** `uvicorn api.main:app --host 0.0.0.0 --port $PORT`
+- **Health check:** `/health`
+
+Set on Railway:
+
+| Variable | Required | Example |
+|---|---|---|
+| `GROQ_API_KEY` | Yes | Your Groq key |
+| `FRONTEND_ORIGIN` | Yes | `https://your-app.vercel.app` |
+| `SERVE_UI` | No | `false` (default) |
+
+`PORT` is set by Railway. CORS also allows any `https://*.vercel.app` origin for preview deployments.
+
+### Vercel (UI)
+
+1. Import the GitHub repo in Vercel.
+2. Leave the default settings — `vercel.json` sets `outputDirectory` to `ui`.
+3. Add this environment variable:
+
+| Variable | Value |
+|---|---|
+| `API_BASE_URL` | Your Railway API URL, e.g. `https://your-app.up.railway.app` |
+
+4. Deploy. The build runs `npm run build`, which writes `ui/config.js` with your API URL.
+
+Local UI config: copy `ui/config.example.js` to `ui/config.js` or rely on the committed local default.
+
+---
+
 ## Single-Server Deploy (Optional)
 
-For a demo on one VM, run both processes on the same machine:
+For a demo on one machine without Vercel:
 
 | Process | Command | Port |
 |---|---|---|
 | Backend | `python -m uvicorn api.main:app --host 0.0.0.0 --port 8000` | 8000 |
 | Static UI | `python -m http.server 3000 --directory ui` | 3000 |
 
-Set `FRONTEND_ORIGIN` in `.env` to match how users reach the UI (e.g. `http://your-vm-ip:3000`). The UI calls the backend at `http://127.0.0.1:8000` by default; override with `?apiBase=http://your-vm-ip:8000` in the URL if needed.
+Set `FRONTEND_ORIGIN=http://localhost:3000` in `.env`. The UI uses `ui/config.js` (default `http://127.0.0.1:8000`) to reach the API.
 
-Use HTTPS and a reverse proxy (nginx, Caddy) in production.
-
-### Railway
-
-The repo includes `railway.toml` with:
-
-- **Build:** `python scripts/index_from_samples.py` (embeds `data/sample_chunks.json` into Chroma)
-- **Start:** `uvicorn api.main:app --host 0.0.0.0 --port $PORT`
-- **Health check:** `/health`
-
-Set these variables in the Railway service:
-
-| Variable | Required |
-|---|---|
-| `GROQ_API_KEY` | Yes |
-| `FRONTEND_ORIGIN` | Optional — your Railway app URL (for CORS) |
-
-Railway sets `PORT` automatically. The UI and API are served from the same URL.
+To serve UI from the API process instead, set `SERVE_UI=true`.
 
 ---
 

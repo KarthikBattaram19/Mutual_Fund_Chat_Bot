@@ -15,6 +15,8 @@ from rag.retriever import ChromaRetriever
 
 from api.routes.ask import router as ask_router
 
+VERCEL_ORIGIN_PATTERN = r"https://.*\.vercel\.app"
+
 
 def create_app() -> FastAPI:
     settings = get_settings()
@@ -22,9 +24,10 @@ def create_app() -> FastAPI:
 
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=_local_frontend_origins(settings.frontend_origin),
+        allow_origins=_configured_frontend_origins(settings.frontend_origin),
+        allow_origin_regex=VERCEL_ORIGIN_PATTERN,
         allow_credentials=False,
-        allow_methods=["GET", "POST"],
+        allow_methods=["GET", "POST", "OPTIONS"],
         allow_headers=["*"],
     )
     app.middleware("http")(PerClientRateLimiter(limit=30, window_seconds=60))
@@ -40,30 +43,30 @@ def create_app() -> FastAPI:
             "groq_model": settings.groq_model,
         }
 
-    _mount_ui(app)
+    if settings.serve_ui:
+        _mount_ui(app)
     return app
 
 
 def _mount_ui(app: FastAPI) -> None:
-    """Serve the static UI from the same process (Railway / single-server deploy)."""
+    """Optionally serve the static UI from the API process (local single-server mode)."""
 
     ui_dir = Path(__file__).resolve().parents[1] / "ui"
     if ui_dir.is_dir():
         app.mount("/", StaticFiles(directory=ui_dir, html=True), name="ui")
 
 
-def _local_frontend_origins(configured_origin: str) -> list[str]:
-    """Allow either localhost spelling for the local static website."""
+def _configured_frontend_origins(configured_origin: str) -> list[str]:
+    """Allow configured origins plus local static dev servers."""
 
-    return list(
-        dict.fromkeys(
-            [
-                configured_origin,
-                "http://localhost:3000",
-                "http://127.0.0.1:3000",
-            ]
-        )
+    origins = [part.strip() for part in configured_origin.split(",") if part.strip()]
+    origins.extend(
+        [
+            "http://localhost:3000",
+            "http://127.0.0.1:3000",
+        ]
     )
+    return list(dict.fromkeys(origins))
 
 
 class PerClientRateLimiter:

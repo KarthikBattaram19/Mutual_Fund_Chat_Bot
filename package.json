@@ -1,0 +1,7 @@
+{
+  "name": "mutual-fund-faq-ui",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/generate_ui_config.js"
+  }
+}

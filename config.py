@@ -17,6 +17,7 @@ class Settings:
     api_host: str
     api_port: int
     frontend_origin: str
+    serve_ui: bool
 
 
 def _read_dotenv(path: Path = Path(".env")) -> dict[str, str]:
@@ -52,6 +53,11 @@ def _bounded_float(raw_value: str, *, minimum: float, maximum: float, name: str)
     return value
 
 
+def _get_bool(values: dict[str, str], key: str, default: str) -> bool:
+    raw = os.environ.get(key) or values.get(key) or default
+    return raw.strip().lower() in {"1", "true", "yes", "on"}
+
+
 @lru_cache
 def get_settings() -> Settings:
     dotenv_values = _read_dotenv()
@@ -76,4 +82,5 @@ def get_settings() -> Settings:
             name="API_PORT",
         ),
         frontend_origin=_get_value(dotenv_values, "FRONTEND_ORIGIN", "http://localhost:3000"),
+        serve_ui=_get_bool(dotenv_values, "SERVE_UI", "false"),
     )
