@@ -145,7 +145,7 @@ Recommended split:
 `railway.toml` configures:
 
 - **Build:** `python scripts/index_from_samples.py`
-- **Start:** `uvicorn api.main:app --host 0.0.0.0 --port $PORT`
+- **Start:** `python scripts/start_api.py` (binds to Railway `PORT`)
 - **Health check:** `/health`
 
 Set on Railway:
@@ -156,7 +156,7 @@ Set on Railway:
 | `FRONTEND_ORIGIN` | Yes | `https://your-app.vercel.app` |
 | `SERVE_UI` | No | `false` (default) |
 
-`PORT` is set by Railway. CORS also allows any `https://*.vercel.app` origin for preview deployments.
+`PORT` is set by Railway and read by `scripts/start_api.py`. In **Public Networking**, the exposed port must match Railway's `PORT` value (commonly `8000`). CORS also allows any `https://*.vercel.app` origin for preview deployments.
 
 ### Vercel (UI) — Option A
 

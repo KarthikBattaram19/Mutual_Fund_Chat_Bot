@@ -8,10 +8,10 @@ def test_railway_config_files_define_start_command() -> None:
     railway_toml = Path("railway.toml").read_text(encoding="utf-8")
     railpack_json = json.loads(Path("railpack.json").read_text(encoding="utf-8"))
 
-    assert "uvicorn api.main:app" in railway_toml
-    assert "$PORT" in railway_toml
+    assert "python scripts/start_api.py" in railway_toml
     assert "index_from_samples.py" in railway_toml
-    assert "uvicorn api.main:app" in railpack_json["deploy"]["startCommand"]
+    assert railpack_json["deploy"]["startCommand"] == "python scripts/start_api.py"
+    assert Path("scripts/start_api.py").exists()
 
 
 def test_index_from_samples_loads_committed_chunks() -> None:

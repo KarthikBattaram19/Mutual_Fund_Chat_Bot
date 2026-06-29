@@ -7,25 +7,30 @@ export function resolveApiBaseUrl(location = window.location) {
     return String(configured).replace(/\/$/, "");
   }
 
-  if (location.protocol.startsWith("http")) {
-    const host = location.hostname;
-    const isLocalHost = host === "localhost" || host === "127.0.0.1";
-    if (isLocalHost && (location.port === "3000" || location.port === "" || location.port === "8000")) {
-      return DEFAULT_BACKEND_ORIGIN;
-    }
+  const host = location.hostname;
+  const isLocalHost = host === "localhost" || host === "127.0.0.1";
+  if (isLocalHost) {
+    return DEFAULT_BACKEND_ORIGIN;
   }
 
-  return DEFAULT_BACKEND_ORIGIN;
+  throw new Error("API_BASE_URL is not configured for this deployment.");
 }
 
 export async function askQuestion(query, { apiBaseUrl = resolveApiBaseUrl(), fetchImpl = fetch } = {}) {
-  const response = await fetchImpl(`${apiBaseUrl}/api/ask`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ query }),
-  });
+  let response;
+  try {
+    response = await fetchImpl(`${apiBaseUrl}/api/ask`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ query }),
+    });
+  } catch {
+    throw new Error(
+      "Could not reach the API backend. Confirm Railway is running and API_BASE_URL is set correctly in Vercel.",
+    );
+  }
 
   let payload = null;
   try {
