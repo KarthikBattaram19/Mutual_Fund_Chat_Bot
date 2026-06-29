@@ -158,24 +158,14 @@ Set on Railway:
 
 `PORT` is set by Railway. CORS also allows any `https://*.vercel.app` origin for preview deployments.
 
-### Vercel (UI)
-
-**Option A — Root Directory `frontend` (recommended)**
+### Vercel (UI) — Option A
 
 1. Import the GitHub repo in Vercel.
 2. Set **Root Directory** to `frontend`.
-3. Add environment variable `API_BASE_URL` = your Railway API URL.
-4. Deploy.
+3. Add environment variable `API_BASE_URL` = your Railway API URL (required).
+4. Deploy — Vercel runs `npm run build` from `frontend/package.json` to generate `config.js`.
 
-**Option B — Deploy from repository root**
-
-The root `vercel.json` and `.vercelignore` deploy only the static `frontend/` folder and exclude the Python backend (prevents the 500 MB serverless bundle error).
-
-| Variable | Value |
-|---|---|
-| `API_BASE_URL` | Your Railway API URL, e.g. `https://your-app.up.railway.app` |
-
-The build writes `frontend/config.js` with your API URL. Do **not** point Vercel at the Python backend — that belongs on Railway.
+Do **not** use a root-level `vercel.json`; config lives in `frontend/vercel.json` only.
 
 Local UI config: copy `frontend/config.example.js` to `frontend/config.js` or rely on the committed local default.
 

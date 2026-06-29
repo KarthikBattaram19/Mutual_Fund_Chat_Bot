@@ -8,35 +8,34 @@ from bs4 import BeautifulSoup
 from api.main import VERCEL_ORIGIN_PATTERN, _configured_frontend_origins
 
 
-def test_root_vercel_config_deploys_frontend_only() -> None:
-    root = json.loads(Path("vercel.json").read_text(encoding="utf-8"))
-    frontend = json.loads(Path("frontend/vercel.json").read_text(encoding="utf-8"))
+def test_frontend_vercel_config_is_static_only() -> None:
+    vercel = json.loads(Path("frontend/vercel.json").read_text(encoding="utf-8"))
     package = json.loads(Path("frontend/package.json").read_text(encoding="utf-8"))
 
-    assert root["outputDirectory"] == "frontend"
-    assert root["framework"] is None
-    assert frontend["framework"] is None
-    assert package["scripts"]["build"] == "node build-config.js"
-    assert Path("frontend/build-config.js").exists()
+    assert vercel["framework"] is None
+    assert "vercel-build" in package["scripts"]
+    assert "API_BASE_URL" in package["scripts"]["build"]
+    assert not Path("vercel.json").exists()
 
 
-def test_vercelignore_excludes_python_backend_but_not_frontend_build() -> None:
+def test_vercelignore_only_targets_repo_root_paths() -> None:
     ignored = Path(".vercelignore").read_text(encoding="utf-8")
 
+    assert "/api/" in ignored
     assert "/scripts/" in ignored
-    assert "scripts/" not in ignored.replace("/scripts/", "")
-    assert "requirements.txt" in ignored
-    assert "api/" in ignored
+    assert "api/" not in ignored.replace("/api/", "")
+    assert "/requirements.txt" in ignored
 
 
-def test_build_config_writes_api_base_url() -> None:
+def test_frontend_package_build_writes_config_js() -> None:
     config_path = Path("frontend/config.js")
     before = config_path.read_text(encoding="utf-8")
     try:
         env = {**os.environ, "API_BASE_URL": "https://api.example.railway.app"}
-        subprocess.run(["node", "build-config.js"], check=True, env=env, cwd="frontend")
+        subprocess.run(["npm", "run", "build"], check=True, env=env, cwd="frontend", shell=True)
         generated = config_path.read_text(encoding="utf-8")
-        assert 'window.__API_BASE_URL__ = "https://api.example.railway.app"' in generated
+        assert "https://api.example.railway.app" in generated
+        assert "window.__API_BASE_URL__" in generated
     finally:
         config_path.write_text(before, encoding="utf-8")
 
