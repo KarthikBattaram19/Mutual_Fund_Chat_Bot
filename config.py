@@ -69,6 +69,11 @@ def get_settings() -> Settings:
             name="SIMILARITY_THRESHOLD",
         ),
         api_host=_get_value(dotenv_values, "API_HOST", "127.0.0.1"),
-        api_port=_bounded_int(_get_value(dotenv_values, "API_PORT", "8000"), minimum=1, maximum=65535, name="API_PORT"),
+        api_port=_bounded_int(
+            os.environ.get("PORT") or _get_value(dotenv_values, "API_PORT", "8000"),
+            minimum=1,
+            maximum=65535,
+            name="API_PORT",
+        ),
         frontend_origin=_get_value(dotenv_values, "FRONTEND_ORIGIN", "http://localhost:3000"),
     )

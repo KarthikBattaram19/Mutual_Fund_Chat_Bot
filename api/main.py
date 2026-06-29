@@ -4,8 +4,11 @@ from collections import defaultdict, deque
 from time import time
 from typing import Callable
 
+from pathlib import Path
+
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from config import get_settings
 from rag.retriever import ChromaRetriever
@@ -37,7 +40,16 @@ def create_app() -> FastAPI:
             "groq_model": settings.groq_model,
         }
 
+    _mount_ui(app)
     return app
+
+
+def _mount_ui(app: FastAPI) -> None:
+    """Serve the static UI from the same process (Railway / single-server deploy)."""
+
+    ui_dir = Path(__file__).resolve().parents[1] / "ui"
+    if ui_dir.is_dir():
+        app.mount("/", StaticFiles(directory=ui_dir, html=True), name="ui")
 
 
 def _local_frontend_origins(configured_origin: str) -> list[str]:

@@ -7,7 +7,12 @@ export function resolveApiBaseUrl(location = window.location) {
     return configured.replace(/\/$/, "");
   }
 
-  if (location.protocol.startsWith("http") && location.port === "8000") {
+  if (location.protocol.startsWith("http")) {
+    // Local dev: static UI on :3000, API on :8000.
+    if (location.port === "3000") {
+      return DEFAULT_BACKEND_ORIGIN;
+    }
+    // Same-origin deploy (Railway or uvicorn serving UI + API).
     return location.origin;
   }
 

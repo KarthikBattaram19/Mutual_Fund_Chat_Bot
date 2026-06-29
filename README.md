@@ -144,6 +144,23 @@ Set `FRONTEND_ORIGIN` in `.env` to match how users reach the UI (e.g. `http://yo
 
 Use HTTPS and a reverse proxy (nginx, Caddy) in production.
 
+### Railway
+
+The repo includes `railway.toml` with:
+
+- **Build:** `python scripts/index_from_samples.py` (embeds `data/sample_chunks.json` into Chroma)
+- **Start:** `uvicorn api.main:app --host 0.0.0.0 --port $PORT`
+- **Health check:** `/health`
+
+Set these variables in the Railway service:
+
+| Variable | Required |
+|---|---|
+| `GROQ_API_KEY` | Yes |
+| `FRONTEND_ORIGIN` | Optional — your Railway app URL (for CORS) |
+
+Railway sets `PORT` automatically. The UI and API are served from the same URL.
+
 ---
 
 ## API Reference
