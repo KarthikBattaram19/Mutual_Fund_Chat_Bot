@@ -1,10 +1,21 @@
 const DEFAULT_BACKEND_ORIGIN = "http://127.0.0.1:8000";
 
+function normalizeApiBaseUrl(value) {
+  const trimmed = String(value || "").trim().replace(/\/$/, "");
+  if (!trimmed) {
+    return "";
+  }
+  if (/^https?:\/\//i.test(trimmed)) {
+    return trimmed;
+  }
+  return `https://${trimmed}`;
+}
+
 export function resolveApiBaseUrl(location = window.location) {
   const params = new URLSearchParams(location.search);
   const configured = params.get("apiBase") || window.__API_BASE_URL__;
   if (configured) {
-    return String(configured).replace(/\/$/, "");
+    return normalizeApiBaseUrl(configured);
   }
 
   const host = location.hostname;

@@ -43,6 +43,18 @@ def test_frontend_package_build_writes_config_js() -> None:
         config_path.write_text(before, encoding="utf-8")
 
 
+def test_frontend_build_adds_https_when_api_base_url_omits_scheme() -> None:
+    config_path = Path("frontend/config.js")
+    before = config_path.read_text(encoding="utf-8")
+    try:
+        env = {**os.environ, "API_BASE_URL": "api.example.railway.app"}
+        subprocess.run(["node", "build-config.js"], check=True, env=env, cwd="frontend")
+        generated = config_path.read_text(encoding="utf-8")
+        assert '"https://api.example.railway.app"' in generated
+    finally:
+        config_path.write_text(before, encoding="utf-8")
+
+
 def test_frontend_loads_runtime_config_before_app() -> None:
     soup = BeautifulSoup(Path("frontend/index.html").read_text(encoding="utf-8"), "html.parser")
     scripts = [tag.get("src") for tag in soup.find_all("script") if tag.get("src")]

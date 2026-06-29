@@ -163,7 +163,7 @@ Set on Railway:
 1. Import the GitHub repo in Vercel.
 2. Set **Root Directory** to `frontend`.
 3. Leave **Framework Preset** as **Other** (this is a static HTML/JS site, not Next.js or React).
-4. Add environment variable `API_BASE_URL` = your Railway API URL (required).
+4. Add environment variable `API_BASE_URL` = your Railway API URL (required), e.g. `https://your-app.up.railway.app` (`https://` is added automatically if omitted).
 5. Deploy — Vercel runs `npm run build` to generate `config.js` and serves the `frontend/` folder.
 
 Do **not** use a root-level `vercel.json`; config lives in `frontend/vercel.json` only.

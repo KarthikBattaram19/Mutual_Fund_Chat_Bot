@@ -4,7 +4,18 @@
 const fs = require("fs");
 const path = require("path");
 
-const apiBaseUrl = (process.env.API_BASE_URL || "").trim().replace(/\/$/, "");
+function normalizeApiBaseUrl(value) {
+  const trimmed = String(value || "").trim().replace(/\/$/, "");
+  if (!trimmed) {
+    return "";
+  }
+  if (/^https?:\/\//i.test(trimmed)) {
+    return trimmed;
+  }
+  return `https://${trimmed}`;
+}
+
+const apiBaseUrl = normalizeApiBaseUrl(process.env.API_BASE_URL);
 
 if (process.env.VERCEL && !apiBaseUrl) {
   console.error("ERROR: Set API_BASE_URL in Vercel env vars");
