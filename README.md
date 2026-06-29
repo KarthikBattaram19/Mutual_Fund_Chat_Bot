@@ -105,7 +105,7 @@ python -m uvicorn api.main:app --host 127.0.0.1 --port 8000
 In a second terminal:
 
 ```powershell
-python -m http.server 3000 --directory ui
+python -m http.server 3000 --directory frontend
 ```
 
 Open http://localhost:3000 in your browser.
@@ -137,7 +137,7 @@ Recommended split:
 
 | Component | Platform | Serves |
 |---|---|---|
-| **Frontend** | [Vercel](https://vercel.com) | Static UI from `ui/` |
+| **Frontend** | [Vercel](https://vercel.com) | Static site from `frontend/` |
 | **Backend** | [Railway](https://railway.com) | FastAPI API only |
 
 ### Railway (API)
@@ -161,16 +161,16 @@ Set on Railway:
 ### Vercel (UI)
 
 1. Import the GitHub repo in Vercel.
-2. Leave the default settings — `vercel.json` sets `outputDirectory` to `ui`.
+2. Set **Root Directory** to `frontend`.
 3. Add this environment variable:
 
 | Variable | Value |
 |---|---|
 | `API_BASE_URL` | Your Railway API URL, e.g. `https://your-app.up.railway.app` |
 
-4. Deploy. The build runs `npm run build`, which writes `ui/config.js` with your API URL.
+4. Deploy. The build runs `npm run build`, which writes `frontend/config.js` with your API URL.
 
-Local UI config: copy `ui/config.example.js` to `ui/config.js` or rely on the committed local default.
+Local UI config: copy `frontend/config.example.js` to `frontend/config.js` or rely on the committed local default.
 
 ---
 
@@ -181,9 +181,9 @@ For a demo on one machine without Vercel:
 | Process | Command | Port |
 |---|---|---|
 | Backend | `python -m uvicorn api.main:app --host 0.0.0.0 --port 8000` | 8000 |
-| Static UI | `python -m http.server 3000 --directory ui` | 3000 |
+| Static UI | `python -m http.server 3000 --directory frontend` | 3000 |
 
-Set `FRONTEND_ORIGIN=http://localhost:3000` in `.env`. The UI uses `ui/config.js` (default `http://127.0.0.1:8000`) to reach the API.
+Set `FRONTEND_ORIGIN=http://localhost:3000` in `.env`. The UI uses `frontend/config.js` (default `http://127.0.0.1:8000`) to reach the API.
 
 To serve UI from the API process instead, set `SERVE_UI=true`.
 
@@ -274,7 +274,7 @@ python -m pytest
 | Corpus index (5 URLs, metadata, dates) | [`data/corpus_index.json`](data/corpus_index.json) |
 | RAG pipeline | `ingestion/`, `rag/` |
 | Query classifier | [`rag/classifier.py`](rag/classifier.py) |
-| Minimal UI | [`ui/`](ui/) |
+| Minimal UI | [`frontend/`](frontend/) |
 | Disclaimer snippet | UI footer + this README |
 
 ---

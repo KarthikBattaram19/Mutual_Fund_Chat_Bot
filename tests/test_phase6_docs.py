@@ -64,7 +64,7 @@ def test_phase6_env_example_documents_required_variables() -> None:
 
 
 def test_phase6_ui_disclaimer_snippet() -> None:
-    soup = BeautifulSoup(read_text(ROOT / "ui" / "index.html"), "html.parser")
+    soup = BeautifulSoup(read_text(ROOT / "frontend" / "index.html"), "html.parser")
     disclaimer = soup.select_one('[data-testid="disclaimer-snippet"]')
     brand_subtitle = soup.select_one(".brand-subtitle")
 

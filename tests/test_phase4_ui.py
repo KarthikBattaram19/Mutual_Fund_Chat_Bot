@@ -3,18 +3,18 @@ from pathlib import Path
 from bs4 import BeautifulSoup
 
 
-UI_DIR = Path("ui")
+FRONTEND_DIR = Path("frontend")
 
 
 def read_ui_file(name: str) -> str:
-    return (UI_DIR / name).read_text(encoding="utf-8")
+    return (FRONTEND_DIR / name).read_text(encoding="utf-8")
 
 
 def test_phase4_ui_static_files_exist() -> None:
-    assert (UI_DIR / "index.html").exists()
-    assert (UI_DIR / "styles.css").exists()
-    assert (UI_DIR / "api.js").exists()
-    assert (UI_DIR / "app.js").exists()
+    assert (FRONTEND_DIR / "index.html").exists()
+    assert (FRONTEND_DIR / "styles.css").exists()
+    assert (FRONTEND_DIR / "api.js").exists()
+    assert (FRONTEND_DIR / "app.js").exists()
 
 
 def test_phase4_ui_has_required_load_state_components() -> None:

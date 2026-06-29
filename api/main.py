@@ -51,9 +51,9 @@ def create_app() -> FastAPI:
 def _mount_ui(app: FastAPI) -> None:
     """Optionally serve the static UI from the API process (local single-server mode)."""
 
-    ui_dir = Path(__file__).resolve().parents[1] / "ui"
-    if ui_dir.is_dir():
-        app.mount("/", StaticFiles(directory=ui_dir, html=True), name="ui")
+    frontend_dir = Path(__file__).resolve().parents[1] / "frontend"
+    if frontend_dir.is_dir():
+        app.mount("/", StaticFiles(directory=frontend_dir, html=True), name="frontend")
 
 
 def _configured_frontend_origins(configured_origin: str) -> list[str]:
