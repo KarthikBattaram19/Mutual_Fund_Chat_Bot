@@ -41,6 +41,69 @@ class VectorIndexError(ValueError):
     """Raised when embedded chunks cannot be written to the vector store."""
 
 
+_shared_embedder: BGEEmbedder | None = None
+_shared_query_embedder: FastQueryEmbedder | None = None
+
+
+def get_shared_embedder() -> BGEEmbedder:
+    """Return a process-wide embedder for offline ingestion and batch work."""
+
+    global _shared_embedder
+    if _shared_embedder is None:
+        _shared_embedder = BGEEmbedder()
+    return _shared_embedder
+
+
+def get_shared_query_embedder() -> FastQueryEmbedder:
+    """Return a process-wide lightweight embedder for live query retrieval."""
+
+    global _shared_query_embedder
+    if _shared_query_embedder is None:
+        _shared_query_embedder = FastQueryEmbedder()
+    return _shared_query_embedder
+
+
+class FastQueryEmbedder:
+    """Embed user queries with ONNX-backed fastembed for low cold-start latency."""
+
+    def __init__(
+        self,
+        *,
+        model_name: str | None = None,
+        model: Any | None = None,
+    ) -> None:
+        self.model_name = model_name or get_settings().bge_model_name
+        self._model = model
+
+    @property
+    def model(self) -> Any:
+        if self._model is None:
+            from fastembed import TextEmbedding
+
+            self._model = TextEmbedding(model_name=self.model_name)
+        return self._model
+
+    def embed_texts(self, texts: Iterable[str]) -> list[list[float]]:
+        text_list = [text for text in texts]
+        if not text_list:
+            return []
+        if any(not text.strip() for text in text_list):
+            raise EmbedderError("Cannot embed empty text")
+
+        embeddings = list(self.model.embed(text_list))
+        normalized_embeddings: list[list[float]] = []
+        for embedding in embeddings:
+            if hasattr(embedding, "tolist"):
+                embedding = embedding.tolist()
+            if not isinstance(embedding, list) or not embedding:
+                raise EmbedderError("Model returned an invalid embedding vector")
+            normalized_embeddings.append([float(value) for value in embedding])
+
+        if len(normalized_embeddings) != len(text_list):
+            raise EmbedderError("Embedding count does not match input text count")
+        return normalized_embeddings
+
+
 class BGEEmbedder:
     """Embed corpus chunks with BAAI BGE via sentence-transformers."""
 

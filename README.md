@@ -76,7 +76,7 @@ Edit `.env` and set at minimum:
 | Variable | Required | Purpose |
 |---|---|---|
 | `GROQ_API_KEY` | Yes | Groq LLM inference |
-| `GROQ_MODEL` | No | Default: `llama-3.3-70b-versatile` |
+| `GROQ_MODEL` | No | Default: `llama-3.1-8b-instant` (faster for short factual answers) |
 | `BGE_MODEL_NAME` | No | Default: `BAAI/bge-small-en-v1.5` (downloads on first run) |
 | `VECTOR_STORE_PATH` | No | Default: `data/vector_store` |
 | `TOP_K` | No | Retrieval top-k (default `5`) |
@@ -123,7 +123,9 @@ Expected response (when the vector store exists):
   "status": "ok",
   "vector_store_path": "data\\vector_store",
   "vector_store_ready": true,
-  "groq_model": "llama-3.3-70b-versatile"
+  "groq_model": "llama-3.1-8b-instant",
+  "warmup_ready": true,
+  "warmup_seconds": 1.842
 }
 ```
 
@@ -153,10 +155,13 @@ Set on Railway:
 | Variable | Required | Example |
 |---|---|---|
 | `GROQ_API_KEY` | Yes | Your Groq key |
+| `GROQ_MODEL` | No | `llama-3.1-8b-instant` (recommended for low latency) |
 | `FRONTEND_ORIGIN` | Yes | `https://your-app.vercel.app` |
 | `SERVE_UI` | No | `false` (default) |
 
 `PORT` is set by Railway and read by `scripts/start_api.py`. In **Public Networking**, the exposed port must match Railway's `PORT` value (commonly `8000`). CORS also allows any `https://*.vercel.app` origin for preview deployments.
+
+**Latency:** The API preloads the query embedder and vector store at startup (`/health` warmup). The Vercel UI pings `/health` on page load to wake the Railway backend before the first question. Typical warm responses are under a few seconds.
 
 ### Vercel (UI) — Option A
 

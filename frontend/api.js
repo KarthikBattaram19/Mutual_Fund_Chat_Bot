@@ -27,6 +27,10 @@ export function resolveApiBaseUrl(location = window.location) {
   throw new Error("API_BASE_URL is not configured for this deployment.");
 }
 
+export function warmupBackend({ apiBaseUrl = resolveApiBaseUrl(), fetchImpl = fetch } = {}) {
+  fetchImpl(`${apiBaseUrl}/health`, { method: "GET", keepalive: true }).catch(() => {});
+}
+
 export async function askQuestion(query, { apiBaseUrl = resolveApiBaseUrl(), fetchImpl = fetch } = {}) {
   let response;
   try {

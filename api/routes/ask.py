@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import logging
 from dataclasses import asdict, dataclass, field
+from time import perf_counter
 from typing import Any, Protocol
 
 from fastapi import APIRouter, HTTPException
@@ -14,6 +16,8 @@ from rag.quota import GroqQuotaExceeded
 from rag.refusal import RefusalHandler, RefusalResponse
 from rag.retriever import ChromaRetriever, RetrievalError, RetrievalResult
 from rag.validator import ResponseValidationError, ResponseValidator
+
+logger = logging.getLogger(__name__)
 
 
 class AskRequest(BaseModel):
@@ -68,18 +72,33 @@ class AskService:
         if classification.intent != QueryIntent.FACTUAL:
             return self.refusal_handler.build(classification)
 
+        retrieval_started = perf_counter()
         retrieval = self.retriever.retrieve(stripped_query)
+        retrieval_seconds = perf_counter() - retrieval_started
         if not retrieval.ok:
+            logger.info(
+                "ask refusal=low_confidence retrieval_seconds=%.3f query_chars=%d",
+                retrieval_seconds,
+                len(stripped_query),
+            )
             return RefusalResponse(
                 type="refusal",
                 message="I could not find this information in the configured Groww corpus.",
             )
 
+        generation_started = perf_counter()
         generated = self.generator.generate(query=stripped_query, chunks=retrieval.chunks)
+        generation_seconds = perf_counter() - generation_started
         context = "\n".join(chunk.content for chunk in retrieval.chunks)
         try:
             validated = self.validator.validate(generated, context=context)
         except ResponseValidationError:
+            logger.info(
+                "ask refusal=validation_failed retrieval_seconds=%.3f generation_seconds=%.3f query_chars=%d",
+                retrieval_seconds,
+                generation_seconds,
+                len(stripped_query),
+            )
             return self.refusal_handler.build(
                 ClassificationResult(
                     QueryIntent.ADVISORY,
@@ -87,6 +106,13 @@ class AskService:
                     classification.supported_schemes,
                 )
             )
+        logger.info(
+            "ask answer retrieval_seconds=%.3f generation_seconds=%.3f query_chars=%d chunks=%d",
+            retrieval_seconds,
+            generation_seconds,
+            len(stripped_query),
+            len(retrieval.chunks),
+        )
         return self.formatter.format_answer(validated, retrieval.chunks)
 
     def _build_performance_link_response(self, scheme: dict[str, Any]) -> AnswerResponse:
@@ -124,6 +150,7 @@ def set_ask_service(service: AskService | None) -> None:
 
 @router.post("/api/ask", response_model=AnswerPayload | RefusalPayload)
 def ask(request: AskRequest) -> dict[str, Any]:
+    started = perf_counter()
     try:
         response = get_ask_service().ask(request.query)
     except ValueError as exc:
@@ -135,4 +162,10 @@ def ask(request: AskRequest) -> dict[str, Any]:
     except ResponseValidationError as exc:
         raise HTTPException(status_code=502, detail="Generated answer failed compliance validation.") from exc
 
+    logger.info(
+        "ask route total_seconds=%.3f type=%s query_chars=%d",
+        perf_counter() - started,
+        response.type,
+        len(request.query.strip()),
+    )
     return asdict(response)

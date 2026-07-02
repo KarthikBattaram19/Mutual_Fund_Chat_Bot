@@ -1,4 +1,4 @@
-import { askQuestion, resolveApiBaseUrl } from "./api.js";
+import { askQuestion, resolveApiBaseUrl, warmupBackend } from "./api.js";
 
 const MAX_QUERY_LENGTH = 500;
 const state = {
@@ -299,3 +299,5 @@ function createElement(tagName, className = "", text = "") {
   }
   return element;
 }
+
+warmupBackend({ apiBaseUrl: state.apiBaseUrl });

@@ -1,7 +1,7 @@
 import pytest
 
 from ingestion.chunker import CorpusChunk
-from ingestion.indexer import BGEEmbedder, ChromaVectorIndexWriter, EmbeddedChunk, EmbedderError, VectorIndexError
+from ingestion.indexer import BGEEmbedder, ChromaVectorIndexWriter, EmbeddedChunk, EmbedderError, FastQueryEmbedder, VectorIndexError
 
 
 class FakeEmbeddings:
@@ -22,6 +22,11 @@ class FakeModel:
         if self.embeddings is not None:
             return self.embeddings
         return [[float(index), float(len(text))] for index, text in enumerate(texts)]
+
+
+class FakeFastEmbedModel:
+    def embed(self, texts):
+        return [[0.1, 0.2, 0.3] for _ in texts]
 
 
 class FakeCollection:
@@ -54,6 +59,12 @@ def chunk(chunk_id: str, content: str) -> CorpusChunk:
         source_url=f"https://groww.in/mutual-funds/{scheme_slug}",
         fetched_at="2026-06-28T00:00:00Z",
     )
+
+
+def test_fast_query_embedder_uses_configured_model_name() -> None:
+    embedder = FastQueryEmbedder(model=FakeFastEmbedModel())
+
+    assert embedder.model_name == "BAAI/bge-small-en-v1.5"
 
 
 def test_embed_texts_uses_configured_model_options() -> None:

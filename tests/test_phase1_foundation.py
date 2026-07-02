@@ -1,5 +1,6 @@
 import json
 import re
+from pathlib import Path
 
 from config import get_settings
 
@@ -13,10 +14,12 @@ APPROVED_SOURCE_URLS = {
 }
 
 
-def test_settings_load_with_defaults() -> None:
+def test_settings_load_with_defaults(monkeypatch) -> None:
+    monkeypatch.setattr("config._read_dotenv", lambda path=Path(".env"): {})
+    get_settings.cache_clear()
     settings = get_settings()
 
-    assert settings.groq_model == "llama-3.3-70b-versatile"
+    assert settings.groq_model == "llama-3.1-8b-instant"
     assert settings.bge_model_name == "BAAI/bge-small-en-v1.5"
     assert settings.vector_store_path.as_posix() == "data/vector_store"
     assert settings.top_k == 5

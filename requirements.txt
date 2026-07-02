@@ -4,6 +4,7 @@ httpx
 beautifulsoup4
 playwright
 sentence-transformers
+fastembed
 chromadb
 groq
 pydantic

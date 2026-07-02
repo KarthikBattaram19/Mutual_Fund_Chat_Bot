@@ -11,7 +11,7 @@ from typing import Iterable
 
 from config import get_settings
 from ingestion.chunker import CorpusChunk
-from ingestion.indexer import BGEEmbedder
+from ingestion.indexer import BGEEmbedder, get_shared_query_embedder
 
 
 FIELD_ALIASES: dict[str, tuple[str, ...]] = {
@@ -241,7 +241,7 @@ class ChromaRetriever:
         self.vector_store_path = Path(vector_store_path) if vector_store_path is not None else settings.vector_store_path
         self.collection_name = collection_name
         self.corpus_index_path = Path(corpus_index_path)
-        self.embedder = embedder or BGEEmbedder()
+        self.embedder = embedder or get_shared_query_embedder()
         self.top_k = top_k or settings.top_k
         self.similarity_threshold = similarity_threshold if similarity_threshold is not None else settings.similarity_threshold
         self.reranker = reranker or SchemeFieldReranker()

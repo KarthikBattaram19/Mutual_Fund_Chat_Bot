@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections import defaultdict, deque
+from contextlib import asynccontextmanager
 from time import time
 from typing import Callable
 
@@ -12,15 +13,22 @@ from fastapi.staticfiles import StaticFiles
 
 from config import get_settings
 from rag.retriever import ChromaRetriever
+from rag.warmup import get_warmup_state, warmup_rag_stack
 
 from api.routes.ask import router as ask_router
 
 VERCEL_ORIGIN_PATTERN = r"https://.*\.vercel\.app"
 
 
+@asynccontextmanager
+async def _lifespan(_: FastAPI):
+    warmup_rag_stack()
+    yield
+
+
 def create_app() -> FastAPI:
     settings = get_settings()
-    app = FastAPI(title="Mutual Fund FAQ Assistant")
+    app = FastAPI(title="Mutual Fund FAQ Assistant", lifespan=_lifespan)
 
     app.add_middleware(
         CORSMiddleware,
@@ -36,11 +44,27 @@ def create_app() -> FastAPI:
     @app.get("/health")
     def health() -> dict[str, object]:
         retriever = ChromaRetriever()
+        warmup_state = get_warmup_state()
+        if not warmup_state.completed:
+            try:
+                warmup_rag_stack()
+            except Exception as exc:
+                return {
+                    "status": "degraded",
+                    "vector_store_path": str(retriever.vector_store_path),
+                    "vector_store_ready": retriever.ready,
+                    "groq_model": settings.groq_model,
+                    "warmup_ready": False,
+                    "warmup_error": str(exc),
+                }
+
         return {
             "status": "ok",
             "vector_store_path": str(retriever.vector_store_path),
             "vector_store_ready": retriever.ready,
             "groq_model": settings.groq_model,
+            "warmup_ready": warmup_state.completed,
+            "warmup_seconds": warmup_state.duration_seconds,
         }
 
     if settings.serve_ui:

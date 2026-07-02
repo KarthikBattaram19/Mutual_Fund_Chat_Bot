@@ -60,6 +60,9 @@ def test_phase4_frontend_posts_to_ask_endpoint_and_renders_payloads() -> None:
 
     assert "/api/ask" in api_js
     assert 'method: "POST"' in api_js
+    assert "warmupBackend" in api_js
+    assert "/health" in api_js
+    assert "warmupBackend" in app_js
     assert "renderResponseCard" in app_js
     assert "renderRefusalCard" in app_js
     assert "Last updated from sources:" in app_js

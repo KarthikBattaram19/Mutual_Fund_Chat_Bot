@@ -12,6 +12,9 @@ class GroqGenerationError(RuntimeError):
     """Raised when Groq generation is unavailable or fails."""
 
 
+_groq_client: Any | None = None
+
+
 SYSTEM_PROMPT = """You are a facts-only mutual fund FAQ assistant.
 Use only the provided retrieved context.
 Do not provide investment advice, recommendations, opinions, or return figures.
@@ -61,11 +64,14 @@ class GroqGenerator:
 
     @staticmethod
     def _load_client(api_key: str) -> Any:
+        global _groq_client
         if not api_key:
             raise GroqGenerationError("GROQ_API_KEY is not configured")
-        from groq import Groq
+        if _groq_client is None:
+            from groq import Groq
 
-        return Groq(api_key=api_key)
+            _groq_client = Groq(api_key=api_key)
+        return _groq_client
 
 
 def _context_from_chunks(chunks: list[CorpusChunk]) -> str:

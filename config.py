@@ -64,7 +64,7 @@ def get_settings() -> Settings:
 
     return Settings(
         groq_api_key=_get_value(dotenv_values, "GROQ_API_KEY", ""),
-        groq_model=_get_value(dotenv_values, "GROQ_MODEL", "llama-3.3-70b-versatile"),
+        groq_model=_get_value(dotenv_values, "GROQ_MODEL", "llama-3.1-8b-instant"),
         bge_model_name=_get_value(dotenv_values, "BGE_MODEL_NAME", "BAAI/bge-small-en-v1.5"),
         vector_store_path=Path(_get_value(dotenv_values, "VECTOR_STORE_PATH", "data/vector_store")),
         top_k=_bounded_int(_get_value(dotenv_values, "TOP_K", "5"), minimum=1, maximum=10, name="TOP_K"),
