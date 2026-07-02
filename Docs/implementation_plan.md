@@ -34,9 +34,10 @@ flowchart LR
     P3["Phase 3<br/>Backend (RAG + API)"]
     P4["Phase 4<br/>Frontend"]
     P5["Phase 5<br/>Integration & Compliance"]
+    P5a["Phase 5.a<br/>Scheduler (GitHub Actions)"]
     P6["Phase 6<br/>Docs & Deployment"]
 
-    P1 --> P2 --> P3 --> P4 --> P5 --> P6
+    P1 --> P2 --> P3 --> P4 --> P5 --> P5a --> P6
 ```
 
 | Phase | Focus | Primary Output | Depends On |
@@ -46,7 +47,8 @@ flowchart LR
 | **Phase 3** | Backend (RAG core + API) | Working `POST /api/ask` endpoint | Phase 2 |
 | **Phase 4** | Minimal frontend | Chat UI wired to backend | Phase 3 |
 | **Phase 5** | Integration & compliance validation | End-to-end verified, compliant MVP | Phase 3 + 4 |
-| **Phase 6** | Documentation & deployment | README, runbook, deployable package | Phase 5 |
+| **Phase 5.a** | Scheduled corpus refresh | GitHub Actions workflow triggers daily ingestion | Phase 2 + 5 |
+| **Phase 6** | Documentation & deployment | README, runbook, deployable package | Phase 5 + 5.a |
 
 **Estimated MVP duration:** 3–4 weeks (single engineer); compresses with parallel frontend/backend work after Phase 2.
 
@@ -377,11 +379,95 @@ Implementation requirements:
 
 ---
 
+## 8.6 Phase 5.a: Scheduler Component (GitHub Actions)
+
+**Objective:** Automate daily corpus refresh so the vector store and `fetched_at` timestamps stay current without manual runs of `scripts/ingest_corpus.py`.
+
+**Dependencies:** Phase 2 complete (ingestion CLI exists); Phase 5 complete (E2E integration verified).
+
+### 8.6.1 Design Summary
+
+The scheduler is a **GitHub Actions workflow** — not an in-process cron inside the API. It triggers the existing offline ingestion pipeline on a fixed schedule and publishes refreshed artifacts for the deployment target.
+
+| Aspect | Choice | Rationale |
+|---|---|---|
+| **Scheduler** | GitHub Actions `schedule` cron | No extra infrastructure; version-controlled; audit trail in Actions logs |
+| **Trigger target** | `scripts/ingest_corpus.py` | Reuses Phase 2 pipeline; no duplicate ingestion logic |
+| **Cadence** | Daily at 10:30 AM IST (`0 5 * * *` UTC) | Keeps NAV/expense-ratio facts reasonably fresh without hammering Groww |
+| **Manual override** | `workflow_dispatch` | Operators can refresh on demand before demos or after parser fixes |
+| **Secrets** | None required for ingestion | Groww fetch is unauthenticated; BGE runs locally in the runner |
+
+### 8.6.2 Tasks
+
+| # | Task | Module / File | Details |
+|---|---|---|---|
+| 5.a.1 | **Ingestion workflow** | `.github/workflows/ingest_corpus.yml` | `on: schedule` (daily cron) + `workflow_dispatch`; checkout repo; setup Python 3.10+; cache pip + Hugging Face model; `pip install -r requirements.txt`; `playwright install chromium`; run `python scripts/ingest_corpus.py`. |
+| 5.a.2 | **Run validation gate** | `.github/workflows/ingest_corpus.yml` | Fail the job if ingestion validation reports fewer than 5 schemes indexed or metadata/excluded-content checks fail (non-zero exit from CLI). |
+| 5.a.3 | **Artifact upload** | `.github/workflows/ingest_corpus.yml` | Upload `data/corpus_index.json`, `data/vector_store/` (or configured `VECTOR_STORE_PATH`), `logs/ingestion_run.log`, and `data/sample_chunks.json` as workflow artifacts (retention e.g. 14 days) for audit and downstream deploy. |
+| 5.a.4 | **Deploy sync (optional)** | `.github/workflows/ingest_corpus.yml` or separate deploy job | For a single-server deployment: copy refreshed vector store + `corpus_index.json` to the host (SSH/rsync, self-hosted runner on the VM, or object storage the API reads). Document the chosen path in the runbook. |
+| 5.a.5 | **Self-hosted runner option** | Docs + workflow `runs-on` | When the API and vector store live on one VM, use a **self-hosted runner** on that machine so ingestion writes directly to `VECTOR_STORE_PATH` without artifact round-trip. |
+| 5.a.6 | **Failure notifications** | `.github/workflows/ingest_corpus.yml` | On failure: job summary with scheme-level errors from `ingestion_run.log`; optional GitHub issue/Slack step (out of scope for minimal MVP). |
+| 5.a.7 | **Scheduler tests** | `tests/test_scheduler_workflow.py` | Smoke-test workflow YAML: valid cron syntax, required steps present, invokes `ingest_corpus.py`, uploads expected artifact paths. |
+
+### 8.6.3 Workflow Contract
+
+```yaml
+# .github/workflows/ingest_corpus.yml (illustrative)
+name: Daily Corpus Ingestion
+
+on:
+  schedule:
+    - cron: "0 5 * * *"   # 10:30 AM IST (05:00 UTC) daily
+  workflow_dispatch:
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest   # or self-hosted for direct VM write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: playwright install chromium
+      - run: python scripts/ingest_corpus.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: corpus-refresh-${{ github.run_id }}
+          path: |
+            data/corpus_index.json
+            data/vector_store/
+            logs/ingestion_run.log
+            data/sample_chunks.json
+```
+
+**Post-ingestion behaviour on the live API:**
+
+- The backend loads the vector store at startup; after a scheduled refresh, **restart the API** (or implement a reload hook) so answers and `last_updated` footers reflect new `fetched_at` values.
+- Until restart, the previous index remains served (acceptable brief staleness).
+
+### 8.6.4 Deliverables
+
+- [x] `.github/workflows/ingest_corpus.yml` with daily schedule and manual dispatch
+- [x] Workflow artifacts for corpus index, vector store, and ingestion log
+- [x] Documented deploy/sync procedure (artifact download, self-hosted runner, or server copy)
+- [x] `tests/test_scheduler_workflow.py` (or equivalent) validating workflow structure
+- [x] Runbook section updated to list GitHub Actions as the primary scheduler
+
+### 8.6.5 Exit Criteria
+
+- `workflow_dispatch` run completes successfully: 5/5 schemes indexed, artifacts uploaded.
+- Scheduled cron is enabled on the default branch (GitHub disables schedules on inactive repos — document this).
+- After deploy sync + API restart, a factual query returns `last_updated` matching the latest `fetched_at` from `corpus_index.json`.
+- Failed ingestion (e.g. simulated fetch error in dry-run test branch) fails the workflow and does not overwrite production artifacts blindly.
+
+---
+
 ## 9. Phase 6: Documentation & Deployment
 
 **Objective:** Finalize docs, package the MVP for local deployment, and document limitations.
 
-**Dependencies:** Phase 5 complete.
+**Dependencies:** Phase 5 and Phase 5.a complete.
 
 ### 9.1 Documentation
 
@@ -390,7 +476,7 @@ Implementation requirements:
 | 6.1 | `README.md` | Setup, selected AMC/schemes, RAG architecture overview, known limitations, disclaimer. |
 | 6.2 | Corpus index docs | 5 URLs, scheme metadata, last ingestion date. |
 | 6.3 | API docs | `POST /api/ask` request/response examples (answer + refusal). |
-| 6.4 | Ingestion runbook | How to run and schedule `scripts/ingest_corpus.py`. |
+| 6.4 | Ingestion runbook | How to run ingestion manually, trigger the GitHub Actions scheduler (`workflow_dispatch`), and sync refreshed artifacts to the deployment host. |
 | 6.5 | Disclaimer snippet | "Facts-only. No investment advice." in README and UI. |
 
 ### 9.2 Deployment
@@ -437,6 +523,7 @@ flowchart TB
 
     subgraph P2["Phase 2: Offline Ingestion"]
         F1[Fetcher] --> P1a[Parser] --> E1[Extractor + Filter] --> C1[Chunker] --> B1[BGE Embedder] --> I1[Index Writer] --> CLI[ingest_corpus.py]
+        I1 --> VS[(Vector Store)]
     end
 
     subgraph P3["Phase 3: Backend"]
@@ -458,6 +545,12 @@ flowchart TB
         CMP[Compliance Matrix]
     end
 
+    subgraph P5a["Phase 5.a: Scheduler"]
+        GHA[GitHub Actions<br/>ingest_corpus.yml]
+        ART[Artifact Upload]
+        GHA --> ART
+    end
+
     subgraph P6["Phase 6: Docs & Deployment"]
         RD[README]
         DEP[Local Deploy]
@@ -465,11 +558,14 @@ flowchart TB
 
     ENV --> F1
     CLI --> CL
+    GHA --> CLI
     API --> CI
     API --> E2E
     RC --> E2E
     RFC --> CMP
-    E2E --> RD
+    E2E --> GHA
+    ART --> VS
+    GHA --> RD
     CMP --> RD
     RD --> DEP
 ```
@@ -485,6 +581,7 @@ flowchart TB
 | **Backend** | 3 | Classifier, Retriever, Generator, Validator, Formatter, Refusal, FastAPI `/api/ask` |
 | **Frontend** | 4 | Disclaimer, Welcome, Examples, ChatInput, ResponseCard, RefusalCard, ChatHistory |
 | **Integration** | 5 | E2E smoke, compliance matrix, error/edge handling |
+| **Scheduler** | 5.a | GitHub Actions daily ingestion workflow, artifacts, deploy sync |
 | **Docs & Deploy** | 6 | README, runbook, deploy guide, demo script |
 
 ---
@@ -501,6 +598,9 @@ flowchart TB
 | Citation/length rules violated by LLM output | 3 | Medium | High | Deterministic formatter (exactly 1 link) + validator (≤3 sentences). |
 | Frontend–backend CORS issues | 5 | Medium | Low | Configure CORS in FastAPI; dev proxy. |
 | Accidental PII logging | 3 | Low | High | PII guard before any logging/processing; no query persistence. |
+| Scheduled ingestion fails silently | 5.a | Medium | Medium | Fail workflow on validation errors; retain artifacts; monitor Actions run history. |
+| Stale vector store after scheduled refresh | 5.a | Medium | Medium | Document API restart or reload after deploy sync; health check shows `vector_store_ready`. |
+| GitHub-hosted runner cannot reach deployment disk | 5.a | Medium | Medium | Use self-hosted runner on VM or artifact + rsync deploy step. |
 
 ---
 
@@ -517,6 +617,7 @@ Maps each context.md §12 success criterion and architecture compliance layer to
 | UI usability | Disclaimer/Welcome/Examples (Phase 4) | UI exit criteria (7.5), E2E (5.2) |
 | Privacy compliance (no PII) | PII guard (3.2), no client PII (4.15) | Matrix (5.12), Phase 5 exit |
 | Corpus boundary | Content filter (2.4), retrieval filter (3.5) | Compliance tests (3.22), matrix (5.13) |
+| Corpus freshness (`last_updated`) | GitHub Actions scheduler (5.a) + `ingest_corpus.py` | E2E corpus refresh (5.4), scheduler exit criteria (8.6.5) |
 
 ---
 
@@ -524,7 +625,7 @@ Maps each context.md §12 success criterion and architecture compliance layer to
 
 | Limitation | Implication |
 |---|---|
-| Static corpus (5 Groww pages) | Requires manual/scheduled re-ingestion to refresh data. |
+| Static corpus (5 Groww pages) | Refreshed by Phase 5.a GitHub Actions scheduler (daily) plus manual `workflow_dispatch` or CLI. |
 | No real-time NAV | NAV reflects last ingestion date; UI must not imply live data. |
 | Single AMC, 5 schemes | Out-of-scope guard handles other schemes. |
 | English only | No multilingual support in MVP. |

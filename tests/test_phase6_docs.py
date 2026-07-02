@@ -32,6 +32,8 @@ def test_phase6_ingestion_runbook_exists() -> None:
     assert "scripts/ingest_corpus.py" in runbook
     assert "--dry-run" in runbook
     assert "Corpus Refresh Procedure" in runbook
+    assert "GitHub Actions" in runbook
+    assert "ingest_corpus.yml" in runbook
 
 
 def test_phase6_demo_script_covers_three_factual_and_one_refusal() -> None:

@@ -46,11 +46,13 @@ flowchart TB
 
     subgraph Offline["Offline Ingestion Pipeline"]
         direction LR
+        SCH["Scheduler<br/>GitHub Actions<br/>daily cron"]
         F["URL Fetcher<br/>5 Groww pages"]
         P["HTML Parser"]
         E["Fact Extractor"]
         C["Chunker + Metadata"]
         IX["BGE Embed + Index"]
+        SCH -.->|"triggers"| F
         F --> P --> E --> C --> IX
     end
 
@@ -78,7 +80,7 @@ flowchart TB
 | **Client** | Minimal Web UI | User interaction, disclaimer, example questions, chat |
 | **Application** | API, Classifier, RAG Orchestrator, Refusal Handler, Formatter | Route queries, enforce compliance, produce responses |
 | **AI & Data** | Vector Store, BGE Embedding Model, Groq LLM | Semantic retrieval (local BGE) and grounded answer generation (Groq API) |
-| **Offline** | Fetch → Parse → Extract → Chunk → Embed → Index | Build and refresh the 5-URL Groww corpus index |
+| **Offline** | Scheduler, Fetch → Parse → Extract → Chunk → Embed → Index | GitHub Actions triggers daily corpus refresh; batch pipeline builds the 5-URL Groww index |
 
 ---
 
@@ -163,6 +165,41 @@ Corpus URLs (5)
 │ Index Writer│
 └─────────────┘
 ```
+
+### 5.1.1 Scheduler Component (GitHub Actions)
+
+The ingestion pipeline is triggered on a **daily schedule** by a GitHub Actions workflow — not by the online API. This keeps corpus data fresh without coupling query latency to Groww fetches.
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  GitHub Actions: .github/workflows/ingest_corpus.yml        │
+│                                                             │
+│  Triggers:                                                  │
+│    • schedule: cron "0 5 * * *"  (daily, 10:30 AM IST / 05:00 UTC)       │
+│    • workflow_dispatch  (manual on-demand refresh)          │
+│                                                             │
+│  Steps:                                                     │
+│    checkout → setup Python → install deps → Playwright    │
+│    → python scripts/ingest_corpus.py → validation gate      │
+│    → upload artifacts (corpus_index, vector_store, logs)    │
+│    → optional deploy sync to production host                │
+└──────────────────────────┬──────────────────────────────────┘
+                           │
+                           ▼
+              scripts/ingest_corpus.py  (Phase 2 CLI)
+                           │
+                           ▼
+              Vector Store + corpus_index.json updated
+```
+
+| Concern | Design |
+|---|---|
+| **Separation of concerns** | Scheduler only orchestrates; all fetch/parse/embed logic stays in `ingestion/` and `scripts/ingest_corpus.py`. |
+| **Runner choice** | `ubuntu-latest` for CI-style runs with artifact upload; **self-hosted runner** on the deployment VM when the API reads a local `VECTOR_STORE_PATH` and artifacts are unnecessary. |
+| **Failure handling** | Workflow fails if ingestion validation does not report 5/5 schemes; failed runs must not silently deploy a partial index. |
+| **API freshness** | Backend loads the vector store at startup; after a successful scheduled run, restart the API (or reload) so `last_updated` footers reflect new `fetched_at` values. |
+| **Secrets** | Ingestion requires no API keys; `GROQ_API_KEY` is not used in the scheduler job. |
+| **Audit** | Actions run logs + `logs/ingestion_run.log` artifact provide per-scheme field coverage and error history. |
 
 **Chunk metadata schema (per chunk):**
 
@@ -501,6 +538,7 @@ The stack is intentionally lightweight for an MVP.
 | **LLM** | **Groq API** (e.g. `llama-3.3-70b-versatile`) | Fast inference for grounded generation with strict prompts |
 | **Classifier** | Rule-based + optional lightweight Groq call | Advisory detection before retrieval |
 | **Config** | `.env` for `GROQ_API_KEY` | No secrets in source code |
+| **Scheduler** | GitHub Actions (`schedule` + `workflow_dispatch`) | Daily corpus refresh without in-app cron; version-controlled, auditable |
 
 ### 9.1 AI Model Choices
 
@@ -553,12 +591,16 @@ mutual-fund-faq-assistant/
 │       ├── ChatInput.tsx
 │       └── ResponseCard.tsx
 ├── scripts/
-│   └── ingest_corpus.py           # One-shot / scheduled ingestion
+│   └── ingest_corpus.py           # Batch ingestion CLI (also invoked by scheduler)
+├── .github/
+│   └── workflows/
+│       └── ingest_corpus.yml      # Daily scheduled corpus refresh (Phase 5.a)
 ├── tests/
 │   ├── test_classifier.py
 │   ├── test_retriever.py
 │   ├── test_formatter.py
-│   └── test_compliance.py
+│   ├── test_compliance.py
+│   └── test_scheduler_workflow.py # Workflow YAML structure smoke tests
 ├── .env.example                   # GROQ_API_KEY, BGE model name
 └── README.md
 ```
@@ -569,6 +611,13 @@ mutual-fund-faq-assistant/
 
 ```mermaid
 flowchart TB
+    subgraph Scheduler["Scheduled Refresh (GitHub Actions)"]
+        CRON["cron: daily 10:30 AM IST"]
+        WF["ingest_corpus.yml"]
+        CLI["scripts/ingest_corpus.py"]
+        CRON --> WF --> CLI
+    end
+
     subgraph Offline["Offline Ingestion"]
         U1["5 Groww URLs"] --> F["Fetcher"]
         F --> P["Parser"]
@@ -576,6 +625,7 @@ flowchart TB
         E --> C["Chunker"]
         C --> EM["BGE Embedder"]
         EM --> VS[("Vector Store")]
+        CLI --> F
     end
 
     subgraph Online["Online Query"]
@@ -625,9 +675,33 @@ flowchart TB
 
 ### 12.2 Corpus Refresh
 
-- Ingestion runs manually via `scripts/ingest_corpus.py` or on a scheduled cron job
-- Each refresh updates `fetched_at` timestamps used in the "Last updated from sources" footer
-- Vector store is rebuilt or upserted on refresh
+Corpus refresh is automated via **GitHub Actions** (Phase 5.a) and can still be run manually.
+
+| Mode | How | When |
+|---|---|---|
+| **Scheduled (primary)** | `.github/workflows/ingest_corpus.yml` cron (`0 5 * * *` UTC = 10:30 AM IST) | Daily automatic refresh |
+| **Manual (CI)** | GitHub Actions → *Daily Corpus Ingestion* → *Run workflow* | On-demand before demos or after parser fixes |
+| **Manual (local)** | `python scripts/ingest_corpus.py` | Development, debugging, or environments without Actions |
+
+**Refresh flow:**
+
+1. Scheduler workflow runs `scripts/ingest_corpus.py` on the runner.
+2. Pipeline upserts chunks and updates `fetched_at` in `data/corpus_index.json`.
+3. Artifacts (vector store, corpus index, logs) are uploaded for audit and deploy.
+4. For production: sync artifacts to the host (or use a self-hosted runner that writes directly to `VECTOR_STORE_PATH`).
+5. Restart the FastAPI backend so it loads the refreshed index; UI footers then show the new `last_updated` dates.
+
+Until step 5 completes, the API continues serving the previous index (brief staleness is acceptable).
+
+### 12.3 Scheduler Deployment Options
+
+| Option | `runs-on` | Vector store update | Best for |
+|---|---|---|---|
+| **GitHub-hosted + artifacts** | `ubuntu-latest` | Download artifact and copy to server; restart API | Cloud deploy, audit trail |
+| **Self-hosted runner** | `self-hosted` label on VM | Writes directly to local `VECTOR_STORE_PATH` | Single-server MVP |
+| **Local cron (fallback)** | N/A | Same as manual CLI on the host | Air-gapped or no GitHub Actions |
+
+See [implementation_plan.md](./implementation_plan.md) §8.6 for task breakdown and exit criteria.
 
 ---
 
@@ -684,7 +758,7 @@ flowchart TB
 
 | Limitation | Architectural Implication |
 |---|---|
-| Static corpus (5 Groww pages) | Requires manual/scheduled re-ingestion for updates |
+| Static corpus (5 Groww pages) | Daily GitHub Actions scheduler (Phase 5.a) refreshes data; answers reflect last successful ingestion |
 | No real-time NAV | NAV answers reflect last ingestion date; UI should not imply live data |
 | Single AMC, 5 schemes | Classifier should detect out-of-scope scheme queries |
 | English only | No multilingual embedding or generation in MVP |
@@ -708,7 +782,7 @@ flowchart TB
 
 ## 18. Future Extensions (Out of Scope for MVP)
 
-- Automated scheduled corpus refresh with change detection
+- Change-detection alerts when Groww page structure shifts (ingestion warnings → notify)
 - Admin dashboard for ingestion status and corpus health
 - Multi-language support
 - Additional AMCs or schemes (requires corpus expansion policy)

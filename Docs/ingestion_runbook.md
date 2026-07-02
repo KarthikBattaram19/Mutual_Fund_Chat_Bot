@@ -140,20 +140,51 @@ Re-running ingestion is **idempotent**: chunk IDs are stable and the index is up
 
 ---
 
-## Scheduling (Optional)
+## Scheduling
 
-### Windows Task Scheduler
+### GitHub Actions (primary)
 
-- **Trigger:** Weekly (e.g. Sunday 02:00)
+The **daily corpus refresh** runs automatically via [`.github/workflows/ingest_corpus.yml`](../.github/workflows/ingest_corpus.yml).
+
+| Setting | Value |
+|---|---|
+| **Schedule** | Daily at 10:30 AM IST (`0 5 * * *` UTC) |
+| **Manual run** | GitHub → *Actions* → *Daily Corpus Ingestion* → *Run workflow* |
+| **Self-hosted runner** | Choose `self-hosted` in the manual dispatch form when the API and `VECTOR_STORE_PATH` live on the same VM |
+
+**What the workflow does:**
+
+1. Installs Python dependencies and Playwright Chromium
+2. Runs `python scripts/ingest_corpus.py`
+3. On success, uploads artifacts: `data/corpus_index.json`, `data/vector_store/`, `data/sample_chunks.json`, `logs/ingestion_run.log` (14-day retention)
+4. On failure, uploads the ingestion log and writes a job summary for debugging
+
+**After a successful scheduled run (production):**
+
+1. Download the `corpus-refresh-*` artifact (GitHub-hosted runner) or skip this step if using a self-hosted runner that writes directly to disk
+2. Copy `data/vector_store/` and `data/corpus_index.json` to the deployment host’s `VECTOR_STORE_PATH` location
+3. Restart the FastAPI backend so `/health` and answer footers reflect the refreshed index
+
+> GitHub disables scheduled workflows on inactive repositories. Use *Run workflow* manually if the repo has been idle.
+
+### Local fallback schedulers
+
+Use these when GitHub Actions is unavailable (air-gapped host, no GitHub access).
+
+#### Windows Task Scheduler
+
+- **Trigger:** Daily at 10:30 AM IST (adjust for host timezone)
 - **Action:** `python scripts/ingest_corpus.py`
 - **Start in:** Project root directory
 - **Environment:** Activate venv in the action or use full path to venv Python
 
-### Linux/macOS cron
+#### Linux/macOS cron
 
 ```cron
-0 2 * * 0 cd /path/to/project && /path/to/.venv/bin/python scripts/ingest_corpus.py >> logs/cron_ingest.log 2>&1
+30 10 * * * cd /path/to/project && /path/to/.venv/bin/python scripts/ingest_corpus.py >> logs/cron_ingest.log 2>&1
 ```
+
+---
 
 ---
 

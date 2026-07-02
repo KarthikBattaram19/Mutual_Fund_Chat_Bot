@@ -1,0 +1,102 @@
+name: Daily Corpus Ingestion
+
+on:
+  schedule:
+    # 10:30 AM IST daily (05:00 UTC) — keeps Groww corpus facts reasonably fresh.
+    - cron: "0 5 * * *"
+  workflow_dispatch:
+    inputs:
+      runner:
+        description: "GitHub runner label (ubuntu-latest or self-hosted)"
+        required: false
+        default: ubuntu-latest
+        type: choice
+        options:
+          - ubuntu-latest
+          - self-hosted
+
+env:
+  PYTHON_VERSION: "3.12"
+  VECTOR_STORE_PATH: data/vector_store
+  BGE_MODEL_NAME: BAAI/bge-small-en-v1.5
+
+jobs:
+  ingest:
+    name: Ingest Groww corpus
+    runs-on: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.runner || 'ubuntu-latest' }}
+    timeout-minutes: 90
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Cache Hugging Face model downloads
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: hf-${{ runner.os }}-${{ hashFiles('requirements.txt') }}-${{ env.BGE_MODEL_NAME }}
+          restore-keys: |
+            hf-${{ runner.os }}-${{ hashFiles('requirements.txt') }}-
+            hf-${{ runner.os }}-
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Install Playwright Chromium
+        run: playwright install --with-deps chromium
+
+      - name: Run corpus ingestion
+        env:
+          VECTOR_STORE_PATH: ${{ env.VECTOR_STORE_PATH }}
+          BGE_MODEL_NAME: ${{ env.BGE_MODEL_NAME }}
+        run: python scripts/ingest_corpus.py
+
+      - name: Upload refreshed corpus artifacts
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: corpus-refresh-${{ github.run_id }}
+          retention-days: 14
+          path: |
+            data/corpus_index.json
+            data/vector_store/
+            data/sample_chunks.json
+            logs/ingestion_run.log
+
+      - name: Upload ingestion log on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ingestion-failure-log-${{ github.run_id }}
+          retention-days: 14
+          path: logs/ingestion_run.log
+          if-no-files-found: ignore
+
+      - name: Write job summary
+        if: always()
+        shell: bash
+        run: |
+          {
+            echo "## Corpus ingestion run"
+            echo ""
+            echo "- **Workflow:** ${{ github.workflow }}"
+            echo "- **Run ID:** ${{ github.run_id }}"
+            echo "- **Runner:** ${{ runner.os }} (${{ runner.name }})"
+            echo "- **Trigger:** ${{ github.event_name }}"
+            echo ""
+            if [ -f logs/ingestion_run.log ]; then
+              echo "### Ingestion log"
+              echo '```'
+              tail -n 40 logs/ingestion_run.log
+              echo '```'
+            else
+              echo "_No ingestion log was produced._"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
