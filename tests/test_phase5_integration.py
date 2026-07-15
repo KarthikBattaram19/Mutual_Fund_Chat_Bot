@@ -185,7 +185,7 @@ def test_phase5_full_pipeline_smoke_contract(client_with_matrix_service) -> None
     assert response.status_code == 200
     assert body["type"] == "answer"
     assert body["source_url"] == "https://groww.in/mutual-funds/hdfc-large-cap-fund-direct-growth"
-    assert body["last_updated"] == "June 2026"
+    assert body["last_updated"] == "June 28, 2026"
     assert _sentence_count(body["answer"]) <= 3
     assert retriever.calls == ["What is the expense ratio of HDFC Large Cap Fund?"]
     assert generator.calls == 1
@@ -207,7 +207,7 @@ def test_phase5_all_five_supported_schemes_return_factual_answers(case: SchemeCa
     assert body["type"] == "answer"
     assert case.value in body["answer"]
     assert body["source_url"] == f"https://groww.in/mutual-funds/{case.slug}"
-    assert body["last_updated"] == "June 2026"
+    assert body["last_updated"] == "June 28, 2026"
     assert _sentence_count(body["answer"]) <= 3
 
 
@@ -312,7 +312,7 @@ def test_phase5_corpus_refresh_date_reaches_answer_footer() -> None:
     finally:
         set_ask_service(None)
 
-    assert response.json()["last_updated"] == "July 2026"
+    assert response.json()["last_updated"] == "July 15, 2026"
 
 
 def test_phase5_groq_failure_returns_safe_error() -> None:

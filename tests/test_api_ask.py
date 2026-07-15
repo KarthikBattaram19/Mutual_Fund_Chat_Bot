@@ -85,7 +85,7 @@ def test_ask_route_returns_factual_answer_payload() -> None:
     assert body["type"] == "answer"
     assert body["answer"] == "The expense ratio is 0.75%."
     assert body["source_url"] == "https://groww.in/mutual-funds/hdfc-mid-cap-fund-direct-growth"
-    assert body["last_updated"] == "June 2026"
+    assert body["last_updated"] == "June 28, 2026"
     assert retriever.calls == ["What is the expense ratio of HDFC Mid Cap Fund?"]
     assert generator.calls == 1
 

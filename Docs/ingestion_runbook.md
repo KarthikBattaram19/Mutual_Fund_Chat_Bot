@@ -134,7 +134,7 @@ Run this when Groww pages may have changed or `fetched_at` is stale.
 2. Run `python scripts/ingest_corpus.py`.
 3. Review `logs/ingestion_run.log` for errors or partial schemes.
 4. Restart the backend if it was running (optional; Chroma reads from disk).
-5. Confirm UI “Last updated from sources” reflects the new month in answer footers.
+5. Confirm UI “Last updated from sources” reflects the latest scheduler ingestion date in answer footers.
 
 Re-running ingestion is **idempotent**: chunk IDs are stable and the index is upserted.
 
@@ -157,13 +157,14 @@ The **daily corpus refresh** runs automatically via [`.github/workflows/ingest_c
 1. Installs Python dependencies and Playwright Chromium
 2. Runs `python scripts/ingest_corpus.py`
 3. On success, uploads artifacts: `data/corpus_index.json`, `data/vector_store/`, `data/sample_chunks.json`, `logs/ingestion_run.log` (14-day retention)
-4. On failure, uploads the ingestion log and writes a job summary for debugging
+4. On success, commits updated `data/corpus_index.json` and `data/sample_chunks.json` to the default branch so Railway rebuilds from the latest scheduler run (`index_from_samples.py`). Answer footers then show the new “Last updated from sources” month.
+5. On failure, uploads the ingestion log and writes a job summary for debugging
 
 **After a successful scheduled run (production):**
 
-1. Download the `corpus-refresh-*` artifact (GitHub-hosted runner) or skip this step if using a self-hosted runner that writes directly to disk
-2. Copy `data/vector_store/` and `data/corpus_index.json` to the deployment host’s `VECTOR_STORE_PATH` location
-3. Restart the FastAPI backend so `/health` and answer footers reflect the refreshed index
+1. Confirm the workflow pushed a corpus refresh commit (or download the `corpus-refresh-*` artifact for audit).
+2. Wait for Railway to redeploy from that commit; `/health` should stay ready and answer footers should show the scheduler run month.
+3. Self-hosted runners that write directly to `VECTOR_STORE_PATH` can skip the git commit path and restart the API on the host instead.
 
 > GitHub disables scheduled workflows on inactive repositories. Use *Run workflow* manually if the repo has been idle.
 

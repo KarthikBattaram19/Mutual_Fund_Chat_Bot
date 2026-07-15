@@ -60,4 +60,5 @@ def _format_date(fetched_at: str | None) -> str:
         parsed = datetime.strptime(fetched_at, "%Y-%m-%dT%H:%M:%SZ")
     except ValueError:
         return fetched_at
-    return parsed.strftime("%B %Y")
+    # Day-level stamp so the UI reflects the latest scheduler ingestion run.
+    return f"{parsed.strftime('%B')} {parsed.day}, {parsed.year}"

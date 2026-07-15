@@ -65,6 +65,14 @@ def test_scheduler_workflow_uploads_expected_artifacts(workflow_text: str) -> No
         assert path in workflow_text
 
 
+def test_scheduler_workflow_commits_refreshed_corpus_for_deploy(workflow_text: str) -> None:
+    assert "permissions:" in workflow_text
+    assert "contents: write" in workflow_text
+    assert "Commit refreshed corpus for Railway rebuild" in workflow_text
+    assert "git add data/corpus_index.json data/sample_chunks.json" in workflow_text
+    assert "git push" in workflow_text
+
+
 def test_scheduler_workflow_sets_vector_store_path(workflow_text: str) -> None:
     assert "VECTOR_STORE_PATH" in workflow_text
     assert "data/vector_store" in workflow_text

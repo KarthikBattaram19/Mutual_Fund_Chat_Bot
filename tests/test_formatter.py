@@ -19,7 +19,7 @@ def test_formatter_attaches_single_source_and_last_updated() -> None:
     assert response.type == "answer"
     assert response.answer == "The expense ratio is 0.75%."
     assert response.source_url == "https://groww.in/mutual-funds/hdfc-mid-cap-fund-direct-growth"
-    assert response.last_updated == "June 2026"
+    assert response.last_updated == "June 28, 2026"
 
 
 def test_formatter_strips_provenance_sentences_from_answer_body() -> None:
@@ -43,7 +43,7 @@ def test_formatter_strips_provenance_sentences_from_answer_body() -> None:
 
     assert response.answer == "The expense ratio is 0.51%."
     assert response.source_url == "https://groww.in/mutual-funds/hdfc-gold-etf-fund-of-fund-direct-plan-growth"
-    assert response.last_updated == "June 2026"
+    assert response.last_updated == "June 28, 2026"
 
 
 def test_formatter_strips_fetched_from_attribution_from_answer_body() -> None:
@@ -66,4 +66,4 @@ def test_formatter_strips_fetched_from_attribution_from_answer_body() -> None:
 
     assert response.answer == "The fund is managed by Ashwani Kumar and Sailesh Raj Bhan."
     assert response.source_url == "https://groww.in/mutual-funds/hdfc-large-cap-fund-direct-growth"
-    assert response.last_updated == "June 2026"
+    assert response.last_updated == "June 28, 2026"
