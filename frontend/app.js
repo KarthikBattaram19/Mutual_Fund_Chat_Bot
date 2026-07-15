@@ -197,6 +197,20 @@ function renderResponseCard(payload) {
   body.append(formatReadableText(answerText));
   inner.append(badge, body);
 
+  const lastUpdated = String(payload.last_updated || payload.lastUpdated || "").trim();
+  const updated = createElement("p", "meta-line last-updated");
+  updated.dataset.testid = "last-updated";
+  const calendarIcon = createElement("span", "material-symbols-outlined");
+  calendarIcon.textContent = "calendar_month";
+  calendarIcon.setAttribute("aria-hidden", "true");
+  updated.append(
+    calendarIcon,
+    document.createTextNode(
+      `Last updated from sources: ${lastUpdated || "Unknown"}`,
+    ),
+  );
+  inner.append(updated);
+
   const footer = createElement("div", "card-footer");
 
   if (payload.source_url) {
@@ -208,12 +222,6 @@ function renderResponseCard(payload) {
     linkIcon.textContent = "link";
     source.append(linkIcon, document.createTextNode(`Source: ${payload.source_url}`));
     footer.append(source);
-  }
-
-  if (payload.last_updated) {
-    const updated = createElement("span", "meta-line");
-    updated.textContent = `Last updated from sources: ${payload.last_updated}`;
-    footer.append(updated);
   }
 
   if (footer.childNodes.length > 0) {

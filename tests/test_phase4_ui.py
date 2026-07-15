@@ -66,6 +66,8 @@ def test_phase4_frontend_posts_to_ask_endpoint_and_renders_payloads() -> None:
     assert "renderResponseCard" in app_js
     assert "renderRefusalCard" in app_js
     assert "Last updated from sources:" in app_js
+    assert 'dataset.testid = "last-updated"' in app_js
+    assert "last-updated" in app_js
     assert "target = \"_blank\"" in app_js
     assert "localStorage" not in app_js
     assert "document.cookie" not in app_js

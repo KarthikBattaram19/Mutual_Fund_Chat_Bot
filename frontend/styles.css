@@ -472,8 +472,21 @@ a:focus-visible {
   word-break: break-all;
 }
 
-.meta-line {
-  font-size: 0.9rem;
+.meta-line,
+.last-updated {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 14px 0 0;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.last-updated .material-symbols-outlined {
+  color: var(--primary);
+  font-size: 1.1rem;
 }
 
 /* Footer */
