@@ -5,9 +5,9 @@
     "scheme_slug": "hdfc-large-cap-fund-direct-growth",
     "category": "Large Cap (Equity)",
     "field": "nav",
-    "content": "NAV: Rs 1,238.223",
+    "content": "NAV: Rs 1,226.743",
     "source_url": "https://groww.in/mutual-funds/hdfc-large-cap-fund-direct-growth",
-    "fetched_at": "2026-07-22T07:40:29Z"
+    "fetched_at": "2026-07-23T07:40:27Z"
   },
   {
     "chunk_id": "hdfc-large-cap-fund-direct-growth:expense_ratio",
@@ -17,7 +17,7 @@
     "field": "expense_ratio",
     "content": "Expense ratio: 1.03%",
     "source_url": "https://groww.in/mutual-funds/hdfc-large-cap-fund-direct-growth",
-    "fetched_at": "2026-07-22T07:40:29Z"
+    "fetched_at": "2026-07-23T07:40:27Z"
   },
   {
     "chunk_id": "hdfc-large-cap-fund-direct-growth:exit_load",
@@ -27,7 +27,7 @@
     "field": "exit_load",
     "content": "Exit load: 1% if redeemed within 1 year",
     "source_url": "https://groww.in/mutual-funds/hdfc-large-cap-fund-direct-growth",
-    "fetched_at": "2026-07-22T07:40:29Z"
+    "fetched_at": "2026-07-23T07:40:27Z"
   },
   {
     "chunk_id": "hdfc-large-cap-fund-direct-growth:min_sip",
@@ -37,7 +37,7 @@
     "field": "min_sip",
     "content": "Minimum SIP: Rs 100",
     "source_url": "https://groww.in/mutual-funds/hdfc-large-cap-fund-direct-growth",
-    "fetched_at": "2026-07-22T07:40:29Z"
+    "fetched_at": "2026-07-23T07:40:27Z"
   },
   {
     "chunk_id": "hdfc-large-cap-fund-direct-growth:riskometer",
@@ -47,7 +47,7 @@
     "field": "riskometer",
     "content": "Riskometer: Moderately High",
     "source_url": "https://groww.in/mutual-funds/hdfc-large-cap-fund-direct-growth",
-    "fetched_at": "2026-07-22T07:40:29Z"
+    "fetched_at": "2026-07-23T07:40:27Z"
   },
   {
     "chunk_id": "hdfc-large-cap-fund-direct-growth:benchmark",
@@ -57,7 +57,7 @@
     "field": "benchmark",
     "content": "Benchmark: NIFTY 100 TRI",
     "source_url": "https://groww.in/mutual-funds/hdfc-large-cap-fund-direct-growth",
-    "fetched_at": "2026-07-22T07:40:29Z"
+    "fetched_at": "2026-07-23T07:40:27Z"
   },
   {
     "chunk_id": "hdfc-large-cap-fund-direct-growth:fund_manager",
@@ -67,7 +67,7 @@
     "field": "fund_manager",
     "content": "Fund manager: Ashwani Kumar, Sailesh Raj Bhan",
     "source_url": "https://groww.in/mutual-funds/hdfc-large-cap-fund-direct-growth",
-    "fetched_at": "2026-07-22T07:40:29Z"
+    "fetched_at": "2026-07-23T07:40:27Z"
   },
   {
     "chunk_id": "hdfc-large-cap-fund-direct-growth:aum",
@@ -77,7 +77,7 @@
     "field": "aum",
     "content": "AUM: Rs 79,420.73776911 Cr",
     "source_url": "https://groww.in/mutual-funds/hdfc-large-cap-fund-direct-growth",
-    "fetched_at": "2026-07-22T07:40:29Z"
+    "fetched_at": "2026-07-23T07:40:27Z"
   },
   {
     "chunk_id": "hdfc-large-cap-fund-direct-growth:category",
@@ -87,7 +87,7 @@
     "field": "category",
     "content": "Category: Invests in stocks as per Contrarian investment strategy",
     "source_url": "https://groww.in/mutual-funds/hdfc-large-cap-fund-direct-growth",
-    "fetched_at": "2026-07-22T07:40:29Z"
+    "fetched_at": "2026-07-23T07:40:27Z"
   },
   {
     "chunk_id": "hdfc-mid-cap-fund-direct-growth:nav",
@@ -95,9 +95,9 @@
     "scheme_slug": "hdfc-mid-cap-fund-direct-growth",
     "category": "Mid Cap (Equity)",
     "field": "nav",
-    "content": "NAV: Rs 230.924",
+    "content": "NAV: Rs 228.607",
     "source_url": "https://groww.in/mutual-funds/hdfc-mid-cap-fund-direct-growth",
-    "fetched_at": "2026-07-22T07:40:30Z"
+    "fetched_at": "2026-07-23T07:40:28Z"
   },
   {
     "chunk_id": "hdfc-mid-cap-fund-direct-growth:expense_ratio",
@@ -107,7 +107,7 @@
     "field": "expense_ratio",
     "content": "Expense ratio: 0.75%",
     "source_url": "https://groww.in/mutual-funds/hdfc-mid-cap-fund-direct-growth",
-    "fetched_at": "2026-07-22T07:40:30Z"
+    "fetched_at": "2026-07-23T07:40:28Z"
   },
   {
     "chunk_id": "hdfc-mid-cap-fund-direct-growth:exit_load",
@@ -117,7 +117,7 @@
     "field": "exit_load",
     "content": "Exit load: 1% if redeemed within 1 year.",
     "source_url": "https://groww.in/mutual-funds/hdfc-mid-cap-fund-direct-growth",
-    "fetched_at": "2026-07-22T07:40:30Z"
+    "fetched_at": "2026-07-23T07:40:28Z"
   },
   {
     "chunk_id": "hdfc-mid-cap-fund-direct-growth:min_sip",
@@ -127,7 +127,7 @@
     "field": "min_sip",
     "content": "Minimum SIP: Rs 100",
     "source_url": "https://groww.in/mutual-funds/hdfc-mid-cap-fund-direct-growth",
-    "fetched_at": "2026-07-22T07:40:30Z"
+    "fetched_at": "2026-07-23T07:40:28Z"
   },
   {
     "chunk_id": "hdfc-mid-cap-fund-direct-growth:riskometer",
@@ -137,7 +137,7 @@
     "field": "riskometer",
     "content": "Riskometer: Moderately High",
     "source_url": "https://groww.in/mutual-funds/hdfc-mid-cap-fund-direct-growth",
-    "fetched_at": "2026-07-22T07:40:30Z"
+    "fetched_at": "2026-07-23T07:40:28Z"
   },
   {
     "chunk_id": "hdfc-mid-cap-fund-direct-growth:benchmark",
@@ -147,7 +147,7 @@
     "field": "benchmark",
     "content": "Benchmark: NIFTY Midcap 150 TRI",
     "source_url": "https://groww.in/mutual-funds/hdfc-mid-cap-fund-direct-growth",
-    "fetched_at": "2026-07-22T07:40:30Z"
+    "fetched_at": "2026-07-23T07:40:28Z"
   },
   {
     "chunk_id": "hdfc-mid-cap-fund-direct-growth:fund_manager",
@@ -157,7 +157,7 @@
     "field": "fund_manager",
     "content": "Fund manager: Harshad Patwardhan",
     "source_url": "https://groww.in/mutual-funds/hdfc-mid-cap-fund-direct-growth",
-    "fetched_at": "2026-07-22T07:40:30Z"
+    "fetched_at": "2026-07-23T07:40:28Z"
   },
   {
     "chunk_id": "hdfc-mid-cap-fund-direct-growth:aum",
@@ -167,7 +167,7 @@
     "field": "aum",
     "content": "AUM: Rs 14,026.06687061 Cr",
     "source_url": "https://groww.in/mutual-funds/hdfc-mid-cap-fund-direct-growth",
-    "fetched_at": "2026-07-22T07:40:30Z"
+    "fetched_at": "2026-07-23T07:40:28Z"
   },
   {
     "chunk_id": "hdfc-mid-cap-fund-direct-growth:category",
@@ -177,7 +177,7 @@
     "field": "category",
     "content": "Category: Invests in stocks as per Contrarian investment strategy",
     "source_url": "https://groww.in/mutual-funds/hdfc-mid-cap-fund-direct-growth",
-    "fetched_at": "2026-07-22T07:40:30Z"
+    "fetched_at": "2026-07-23T07:40:28Z"
   },
   {
     "chunk_id": "hdfc-small-cap-fund-direct-growth:nav",
@@ -185,9 +185,9 @@
     "scheme_slug": "hdfc-small-cap-fund-direct-growth",
     "category": "Small Cap (Equity)",
     "field": "nav",
-    "content": "NAV: Rs 161.077",
+    "content": "NAV: Rs 159.27",
     "source_url": "https://groww.in/mutual-funds/hdfc-small-cap-fund-direct-growth",
-    "fetched_at": "2026-07-22T07:40:31Z"
+    "fetched_at": "2026-07-23T07:40:29Z"
   },
   {
     "chunk_id": "hdfc-small-cap-fund-direct-growth:expense_ratio",
@@ -197,7 +197,7 @@
     "field": "expense_ratio",
     "content": "Expense ratio: 0.76%",
     "source_url": "https://groww.in/mutual-funds/hdfc-small-cap-fund-direct-growth",
-    "fetched_at": "2026-07-22T07:40:31Z"
+    "fetched_at": "2026-07-23T07:40:29Z"
   },
   {
     "chunk_id": "hdfc-small-cap-fund-direct-growth:exit_load",
@@ -207,7 +207,7 @@
     "field": "exit_load",
     "content": "Exit load: 1% if redeemed within 1 year",
     "source_url": "https://groww.in/mutual-funds/hdfc-small-cap-fund-direct-growth",
-    "fetched_at": "2026-07-22T07:40:31Z"
+    "fetched_at": "2026-07-23T07:40:29Z"
   },
   {
     "chunk_id": "hdfc-small-cap-fund-direct-growth:min_sip",
@@ -217,7 +217,7 @@
     "field": "min_sip",
     "content": "Minimum SIP: Rs 100",
     "source_url": "https://groww.in/mutual-funds/hdfc-small-cap-fund-direct-growth",
-    "fetched_at": "2026-07-22T07:40:31Z"
+    "fetched_at": "2026-07-23T07:40:29Z"
   },
   {
     "chunk_id": "hdfc-small-cap-fund-direct-growth:riskometer",
@@ -227,7 +227,7 @@
     "field": "riskometer",
     "content": "Riskometer: Moderately High",
     "source_url": "https://groww.in/mutual-funds/hdfc-small-cap-fund-direct-growth",
-    "fetched_at": "2026-07-22T07:40:31Z"
+    "fetched_at": "2026-07-23T07:40:29Z"
   },
   {
     "chunk_id": "hdfc-small-cap-fund-direct-growth:benchmark",
@@ -237,7 +237,7 @@
     "field": "benchmark",
     "content": "Benchmark: BSE 250 SmallCap TRI",
     "source_url": "https://groww.in/mutual-funds/hdfc-small-cap-fund-direct-growth",
-    "fetched_at": "2026-07-22T07:40:31Z"
+    "fetched_at": "2026-07-23T07:40:29Z"
   },
   {
     "chunk_id": "hdfc-small-cap-fund-direct-growth:fund_manager",
@@ -247,7 +247,7 @@
     "field": "fund_manager",
     "content": "Fund manager: Samir Rachh, Dhrumil Shah",
     "source_url": "https://groww.in/mutual-funds/hdfc-small-cap-fund-direct-growth",
-    "fetched_at": "2026-07-22T07:40:31Z"
+    "fetched_at": "2026-07-23T07:40:29Z"
   },
   {
     "chunk_id": "hdfc-small-cap-fund-direct-growth:aum",
@@ -257,7 +257,7 @@
     "field": "aum",
     "content": "AUM: Rs 3,871.80037037 Cr",
     "source_url": "https://groww.in/mutual-funds/hdfc-small-cap-fund-direct-growth",
-    "fetched_at": "2026-07-22T07:40:31Z"
+    "fetched_at": "2026-07-23T07:40:29Z"
   },
   {
     "chunk_id": "hdfc-small-cap-fund-direct-growth:category",
@@ -267,7 +267,7 @@
     "field": "category",
     "content": "Category: Invests in stocks as per Contrarian investment strategy",
     "source_url": "https://groww.in/mutual-funds/hdfc-small-cap-fund-direct-growth",
-    "fetched_at": "2026-07-22T07:40:31Z"
+    "fetched_at": "2026-07-23T07:40:29Z"
   },
   {
     "chunk_id": "hdfc-gold-etf-fund-of-fund-direct-plan-growth:nav",
@@ -275,9 +275,9 @@
     "scheme_slug": "hdfc-gold-etf-fund-of-fund-direct-plan-growth",
     "category": "Commodity (Gold)",
     "field": "nav",
-    "content": "NAV: Rs 44.4267",
+    "content": "NAV: Rs 44.912",
     "source_url": "https://groww.in/mutual-funds/hdfc-gold-etf-fund-of-fund-direct-plan-growth",
-    "fetched_at": "2026-07-22T07:40:32Z"
+    "fetched_at": "2026-07-23T07:40:30Z"
   },
   {
     "chunk_id": "hdfc-gold-etf-fund-of-fund-direct-plan-growth:expense_ratio",
@@ -287,7 +287,7 @@
     "field": "expense_ratio",
     "content": "Expense ratio: 0.21%",
     "source_url": "https://groww.in/mutual-funds/hdfc-gold-etf-fund-of-fund-direct-plan-growth",
-    "fetched_at": "2026-07-22T07:40:32Z"
+    "fetched_at": "2026-07-23T07:40:30Z"
   },
   {
     "chunk_id": "hdfc-gold-etf-fund-of-fund-direct-plan-growth:exit_load",
@@ -297,7 +297,7 @@
     "field": "exit_load",
     "content": "Exit load: 1%, if redeemed within 15 days.",
     "source_url": "https://groww.in/mutual-funds/hdfc-gold-etf-fund-of-fund-direct-plan-growth",
-    "fetched_at": "2026-07-22T07:40:32Z"
+    "fetched_at": "2026-07-23T07:40:30Z"
   },
   {
     "chunk_id": "hdfc-gold-etf-fund-of-fund-direct-plan-growth:min_sip",
@@ -307,7 +307,7 @@
     "field": "min_sip",
     "content": "Minimum SIP: Rs 100",
     "source_url": "https://groww.in/mutual-funds/hdfc-gold-etf-fund-of-fund-direct-plan-growth",
-    "fetched_at": "2026-07-22T07:40:32Z"
+    "fetched_at": "2026-07-23T07:40:30Z"
   },
   {
     "chunk_id": "hdfc-gold-etf-fund-of-fund-direct-plan-growth:riskometer",
@@ -317,7 +317,7 @@
     "field": "riskometer",
     "content": "Riskometer: Moderately High",
     "source_url": "https://groww.in/mutual-funds/hdfc-gold-etf-fund-of-fund-direct-plan-growth",
-    "fetched_at": "2026-07-22T07:40:32Z"
+    "fetched_at": "2026-07-23T07:40:30Z"
   },
   {
     "chunk_id": "hdfc-gold-etf-fund-of-fund-direct-plan-growth:benchmark",
@@ -327,7 +327,7 @@
     "field": "benchmark",
     "content": "Benchmark: Domestic Price of Gold",
     "source_url": "https://groww.in/mutual-funds/hdfc-gold-etf-fund-of-fund-direct-plan-growth",
-    "fetched_at": "2026-07-22T07:40:32Z"
+    "fetched_at": "2026-07-23T07:40:30Z"
   },
   {
     "chunk_id": "hdfc-gold-etf-fund-of-fund-direct-plan-growth:fund_manager",
@@ -337,7 +337,7 @@
     "field": "fund_manager",
     "content": "Fund manager: Krishan Daga",
     "source_url": "https://groww.in/mutual-funds/hdfc-gold-etf-fund-of-fund-direct-plan-growth",
-    "fetched_at": "2026-07-22T07:40:32Z"
+    "fetched_at": "2026-07-23T07:40:30Z"
   },
   {
     "chunk_id": "hdfc-gold-etf-fund-of-fund-direct-plan-growth:aum",
@@ -347,7 +347,7 @@
     "field": "aum",
     "content": "AUM: Rs 944,244.2088 Cr",
     "source_url": "https://groww.in/mutual-funds/hdfc-gold-etf-fund-of-fund-direct-plan-growth",
-    "fetched_at": "2026-07-22T07:40:32Z"
+    "fetched_at": "2026-07-23T07:40:30Z"
   },
   {
     "chunk_id": "hdfc-gold-etf-fund-of-fund-direct-plan-growth:category",
@@ -357,7 +357,7 @@
     "field": "category",
     "content": "Category: HDFC Gold ETF Fund",
     "source_url": "https://groww.in/mutual-funds/hdfc-gold-etf-fund-of-fund-direct-plan-growth",
-    "fetched_at": "2026-07-22T07:40:32Z"
+    "fetched_at": "2026-07-23T07:40:30Z"
   },
   {
     "chunk_id": "hdfc-silver-etf-fof-direct-growth:nav",
@@ -365,9 +365,9 @@
     "scheme_slug": "hdfc-silver-etf-fof-direct-growth",
     "category": "Commodity (Silver)",
     "field": "nav",
-    "content": "NAV: Rs 36.672",
+    "content": "NAV: Rs 36.8307",
     "source_url": "https://groww.in/mutual-funds/hdfc-silver-etf-fof-direct-growth",
-    "fetched_at": "2026-07-22T07:40:33Z"
+    "fetched_at": "2026-07-23T07:40:31Z"
   },
   {
     "chunk_id": "hdfc-silver-etf-fof-direct-growth:expense_ratio",
@@ -377,7 +377,7 @@
     "field": "expense_ratio",
     "content": "Expense ratio: 0.22%",
     "source_url": "https://groww.in/mutual-funds/hdfc-silver-etf-fof-direct-growth",
-    "fetched_at": "2026-07-22T07:40:33Z"
+    "fetched_at": "2026-07-23T07:40:31Z"
   },
   {
     "chunk_id": "hdfc-silver-etf-fof-direct-growth:exit_load",
@@ -387,7 +387,7 @@
     "field": "exit_load",
     "content": "Exit load: 1%, if redeemed within 15 days.",
     "source_url": "https://groww.in/mutual-funds/hdfc-silver-etf-fof-direct-growth",
-    "fetched_at": "2026-07-22T07:40:33Z"
+    "fetched_at": "2026-07-23T07:40:31Z"
   },
   {
     "chunk_id": "hdfc-silver-etf-fof-direct-growth:min_sip",
@@ -397,7 +397,7 @@
     "field": "min_sip",
     "content": "Minimum SIP: Rs 100",
     "source_url": "https://groww.in/mutual-funds/hdfc-silver-etf-fof-direct-growth",
-    "fetched_at": "2026-07-22T07:40:33Z"
+    "fetched_at": "2026-07-23T07:40:31Z"
   },
   {
     "chunk_id": "hdfc-silver-etf-fof-direct-growth:riskometer",
@@ -407,7 +407,7 @@
     "field": "riskometer",
     "content": "Riskometer: Very High",
     "source_url": "https://groww.in/mutual-funds/hdfc-silver-etf-fof-direct-growth",
-    "fetched_at": "2026-07-22T07:40:33Z"
+    "fetched_at": "2026-07-23T07:40:31Z"
   },
   {
     "chunk_id": "hdfc-silver-etf-fof-direct-growth:benchmark",
@@ -417,7 +417,7 @@
     "field": "benchmark",
     "content": "Benchmark: Domestic Price of Silver",
     "source_url": "https://groww.in/mutual-funds/hdfc-silver-etf-fof-direct-growth",
-    "fetched_at": "2026-07-22T07:40:33Z"
+    "fetched_at": "2026-07-23T07:40:31Z"
   },
   {
     "chunk_id": "hdfc-silver-etf-fof-direct-growth:fund_manager",
@@ -427,7 +427,7 @@
     "field": "fund_manager",
     "content": "Fund manager: Krishan Kumar Daga",
     "source_url": "https://groww.in/mutual-funds/hdfc-silver-etf-fof-direct-growth",
-    "fetched_at": "2026-07-22T07:40:33Z"
+    "fetched_at": "2026-07-23T07:40:31Z"
   },
   {
     "chunk_id": "hdfc-silver-etf-fof-direct-growth:aum",
@@ -437,7 +437,7 @@
     "field": "aum",
     "content": "AUM: Rs 944,244.2088 Cr",
     "source_url": "https://groww.in/mutual-funds/hdfc-silver-etf-fof-direct-growth",
-    "fetched_at": "2026-07-22T07:40:33Z"
+    "fetched_at": "2026-07-23T07:40:31Z"
   },
   {
     "chunk_id": "hdfc-silver-etf-fof-direct-growth:category",
@@ -447,6 +447,6 @@
     "field": "category",
     "content": "Category: HDFC Silver ETF FoF Direct-Growth",
     "source_url": "https://groww.in/mutual-funds/hdfc-silver-etf-fof-direct-growth",
-    "fetched_at": "2026-07-22T07:40:33Z"
+    "fetched_at": "2026-07-23T07:40:31Z"
   }
 ]
